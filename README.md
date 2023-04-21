@@ -1,2 +1,3 @@
-# labiaprof
-Código para o trabalho de aprofundamento de labi
+Gonçalo Biscaia Martins
+NMec : 112678
+goncalobmartins@ua.pt

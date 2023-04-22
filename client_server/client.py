@@ -83,8 +83,8 @@ def run_client (client_sock, client_id):
 
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
-	if len(sys.argv) != 2:
-		print("Como usar: python client.py <client_id>")
+	if len(sys.argv) < 2 or len(sys.argv) > 4:
+		print("Usage: python client.py <client_id> <port>")
 		sys.exit(1)
 		
 	# verify type of of arguments and eventually print error message and exit with error
@@ -96,10 +96,13 @@ def main():
 	# verify type of of arguments and eventually print error message and exit with error
 
 	# obtain the port number
-	# port = ?
+	port = int(sys.argv[2])
 
 	# obtain the hostname that can be the localhost or another host
-	# hostname = ?
+	if len(sys.argv) == 4:
+		hostname = sys.argv[3]
+	else:
+		hostname = "localhost"
 
 	client_socket = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 	client_socket.bind(("0.0.0.0", 0))

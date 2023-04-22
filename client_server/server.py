@@ -61,8 +61,8 @@ def generate_result (list_values):
 		elif maximal == last: return last, ["max", "last"]
 		else: return maximal, ["max"]
 	elif choice == 4:
-		listsort = list_values.sort()
-		median = listsort[len(listsort) // 2]
+		list_values.sort()
+        median = list_values[len(list_values) // 2]
 		if median == first: return first, ["median", "first"]
 		elif median == last: return last, ["median", "last"]
 		else: return median, ["median"]

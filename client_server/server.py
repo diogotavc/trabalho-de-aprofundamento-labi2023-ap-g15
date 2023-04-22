@@ -265,8 +265,9 @@ def main():
     # validate the number of arguments and eventually print error message and exit with error
     # verify type of of arguments and eventually print error message and exit with error
 
-    if len(sys.argv) != 2 or not sys.argv[1].isdigit():
+    if len(sys.argv) < 2 or not sys.argv[1].isdigit():
         print("Usage: python3 {} port".format(sys.argv[0]))
+        sys.exit(1)
 
     # obtain the port number
     port = int(sys.argv[1])

@@ -19,6 +19,11 @@ users = {}
 
 
 def find_client_id(client_sock):
+    # Devolve o id através do sock
+    for client_id in users:
+        if users[client_id]["socket"] == client_sock:
+            return client_id
+        
     return None
 
 
@@ -202,7 +207,29 @@ def update_file(client_id, size, guess):
 # verify the appropriate conditions for executing this operation
 # return response message with or without error message
 def number_client(client_sock, request):
-    return None
+    # Como o cliente já está registado (à partida),
+    # acho que é melhor usar find_client_id ao invés de request
+    client_id = find_client_id(client_sock)
+
+	# Se não estiver registado, dá erro:
+    if client_id not in users:
+        return {"op": "NUMBER", "status": False, "error": "Cliente ainda não está registado"}
+
+    # Se estiver registado:
+    else:
+        try:
+            # Se a ligação não for segura, guarda o que recebe sem decriptar
+            if users[client_id]["cipher"] == None:
+                users[client_id]["numbers"].append(int(request["number"]))
+            else:
+                # Decripta a informação antes de a guardar
+                users[client_id]["numbers"].append(decrypt_intvalue(
+                    users[client_id]["cipher"], request["number"]))
+
+            return {"op": "NUMBER", "status": True}
+
+        except:
+            return {"op": "NUMBER", "status": False, "error": "Número inválido"}
 
 
 #

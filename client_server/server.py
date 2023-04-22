@@ -24,7 +24,7 @@ def find_client_id(client_sock):
         if users[client_id]["socket"] == client_sock:
             return client_id
         
-    return None
+    return "Not found"
 
 
 # Função para encriptar valores a enviar em formato json com codificação base64
@@ -177,9 +177,12 @@ def clean_client(client_sock):
 # process the report file with the QUIT result
 # eliminate client from dictionary using the function clean_client
 # return response message with or without error message
-def quit_client(client_sock, request):
-    return None
-
+def quit_client(client_sock):
+    if find_client_id(client_sock) in users:
+        clean_client(client_sock)
+        return {"op": "QUIT", "status": True}
+    else:
+        return {"op": "QUIT", "status": False, "error": "Client not registered"}
 
 #
 # Suporte da criação de um ficheiro csv com o respectivo cabeçalho - já está implementada

@@ -1,3 +1,3 @@
-[**Gonçalo Biscaia Martins** (112678)](goncalobmartins@ua.pt)
+<a href="mailto:goncalobmartins@ua.pt"><strong>Gonçalo Biscaia Martins</strong> (112678)</a>
 
-[**Diogo Tavares Carvalho** (113221)](diogo.tav.carvalho@ua.pt)
+<a href="mailto:diogo.tav.carvalho@ua.pt"><strong>Diogo Tavares Carvalho</strong> (113221)</a>

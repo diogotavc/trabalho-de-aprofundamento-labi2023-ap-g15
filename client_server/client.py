@@ -30,6 +30,8 @@ def validate_response (client_sock, response):
 		sys.exit (3)
 
 
+
+
 # process QUIT operation
 def quit_action (client_sock, attempts):
 	return None
@@ -53,11 +55,44 @@ def quit_action (client_sock, attempts):
 # Suport for executing the client pretended behaviour
 #
 def run_client (client_sock, client_id):
-	return None
+	# Send client ID to server
+	client_sock.sendall(str(client_id).encode())
+
+	numbers = []
+	for num in numbers:
+		client_sock.sendall(str(num).encode())
+
+	client_sock.sendall(b"Foram enviados todos os numeros")
+
+	nrescolhido = client_sock.recv(1024).decode()
+
+	print(f"Numbers sent: {numbers}")
+	print(f"Chosen number: {nrescolhido}")
+
+	if int(nrescolhido) == numbers[0]:
+		print("O numero escolhido foi o primeiro numero")
+	elif int(nrescolhido) == numbers[-1]:
+		print("O numero escolhido foi o ultimo numero")
+	elif int(nrescolhido) == min(numbers):
+		print("O numero escolhido foi o minimo")
+	elif int(nrescolhido) == max(numbers):
+		print("O numero escolhido foi o maximo")
+	elif len(numbers) % 2 != 0 and int(nrescolhido) == sorted(numbers)[len(numbers)//2]:
+		print("O numero escolhido foi @ mediana")
 	
 
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
+	if len(sys.argv) != 2:
+		print("Como usar: python client.py <client_id>")
+		sys.exit(1)
+		
+	# verify type of of arguments and eventually print error message and exit with error
+	try:
+		client_id = int(sys.argv[1])
+	except ValueError:
+		print("O ID do cliente deve ser um integer")
+		sys.exit(1)
 	# verify type of of arguments and eventually print error message and exit with error
 
 	# obtain the port number

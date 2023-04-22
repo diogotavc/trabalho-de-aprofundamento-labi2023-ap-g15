@@ -138,7 +138,19 @@ def new_msg(client_sock):
 
 
 def new_client(client_sock, request):
-    return None
+    client_id = request["client_id"]
+	# Verifica se a ligação é segura
+    if request["cipher"] == None:
+        cipher = None
+    else:
+        cipher = base64.b64decode(request["cipher"])
+    
+	# Verifica se o cliente já está ligado, e adiciona-o caso contrário
+    if client_id not in users:
+        users[client_id] = {"socket": client_sock, "cipher": cipher, "numbers": []}
+        return {"op": "START", "status": True}
+    else:
+        return {"op": "START", "status": False, "error": "Cliente já registado"}
 
 
 #

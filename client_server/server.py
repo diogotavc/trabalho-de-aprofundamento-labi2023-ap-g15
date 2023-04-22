@@ -265,8 +265,11 @@ def main():
     # validate the number of arguments and eventually print error message and exit with error
     # verify type of of arguments and eventually print error message and exit with error
 
+    if len(sys.argv) != 2 or not sys.argv[1].isdigit():
+        print("Usage: python3 {} port".format(sys.argv[0]))
+
     # obtain the port number
-    # port = ?
+    port = int(sys.argv[1])
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(("127.0.0.1", port))
@@ -282,7 +285,7 @@ def main():
             # Sockets may have been closed, check for that
             for client_sock in clients:
                 if client_sock.fileno() == -1:
-                    client_sock.remove(client)  # closed
+                    client_sock.remove(client_sock)  # closed
             continue  # Reiterate select
 
         for client_sock in available:

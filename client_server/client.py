@@ -88,14 +88,14 @@ def main():
 		sys.exit(1)
 		
 	# verify type of of arguments and eventually print error message and exit with error
-	try:
-		client_id = int(sys.argv[1])
-	except ValueError:
-		print("O ID do cliente deve ser um integer")
-		sys.exit(1)
-
+	client_id = sys.argv[1]
+	
 	# obtain the port number
-	port = int(sys.argv[2])
+	if (sys.argv[2].isnumeric()):
+		port = int(sys.argv[2])
+	else:
+		print("Error: The provided port argument is not valid.")
+		sys.exit(2)
 
 	# obtain the hostname that can be the localhost or another host
 	if len(sys.argv) == 4:

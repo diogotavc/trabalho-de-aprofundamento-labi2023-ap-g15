@@ -91,7 +91,7 @@ def valid_address(address):
 
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
-	if len(sys.argv) < 2 or len(sys.argv) > 4:
+	if len(sys.argv) < 3 or len(sys.argv) > 4:
 		print("Usage: python client.py <client_id> <port> [<ipv4_address>]\n\nArguments:\n  <client_id>      The ID of the client.\n  <port>           The port number to use for the connection.\n\nOptional arguments:\n  <ipv4_address>   The IPv4 address of the client. If not specified, the client will connect to the server running locally.")
 		sys.exit(2)
 		
@@ -108,7 +108,7 @@ def main():
 	# obtain the hostname that can be the localhost or another host
 	if len(sys.argv) == 4 and valid_address(sys.argv[3]):
 		hostname = sys.argv[3]
-	elif not valid_address(sys.argv[3]):
+	elif len(sys.argv) == 4 and not valid_address(sys.argv[3]):
 		print("Error: The provided ipv4_address argument is not valid.")
 		sys.exit(2)
 	else:

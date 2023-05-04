@@ -84,8 +84,8 @@ def run_client (client_sock, client_id):
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
 	if len(sys.argv) < 2 or len(sys.argv) > 4:
-		print("Usage: python client.py <client_id> <port>")
-		sys.exit(1)
+		print("Usage: python client.py <client_id> <port> [<ipv4_address>]\n\nArguments:\n  <client_id>      The ID of the client.\n  <port>           The port number to use for the connection.\n\nOptional arguments:\n  <ipv4_address>   The IPv4 address of the client. If not specified, the client will connect to the server running locally.")
+		sys.exit(2)
 		
 	# verify type of of arguments and eventually print error message and exit with error
 	client_id = sys.argv[1]

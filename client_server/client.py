@@ -93,7 +93,6 @@ def main():
 	except ValueError:
 		print("O ID do cliente deve ser um integer")
 		sys.exit(1)
-	# verify type of of arguments and eventually print error message and exit with error
 
 	# obtain the port number
 	port = int(sys.argv[2])

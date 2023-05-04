@@ -5,6 +5,7 @@ import sys
 import socket
 import json
 import base64
+import ipaddress
 from common_comm import send_dict, recv_dict, sendrecv_dict
 
 from Cryptodome.Cipher import AES
@@ -79,7 +80,14 @@ def run_client (client_sock, client_id):
 		print("O numero escolhido foi o maximo")
 	elif len(numbers) % 2 != 0 and int(nrescolhido) == sorted(numbers)[len(numbers)//2]:
 		print("O numero escolhido foi @ mediana")
-	
+
+def valid_address(address):
+    try:
+        ipaddress.IPv4Address(address)
+        return True
+    except ipaddress.AddressValueError:
+        return False
+
 
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
@@ -98,10 +106,12 @@ def main():
 		sys.exit(2)
 
 	# obtain the hostname that can be the localhost or another host
-	if len(sys.argv) == 4:
+	if len(sys.argv) == 4 and valid_address(sys.argv[3]):
 		hostname = sys.argv[3]
+	elif not valid_address(sys.argv[3]):
+		print("Error: The provided ipv4_address argument is not valid.")
 	else:
-		hostname = "localhost"
+		hostname = "127.0.0.1" # aka. localhost
 
 	client_socket = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
 	client_socket.bind(("0.0.0.0", 0))

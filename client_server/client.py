@@ -110,6 +110,7 @@ def main():
 		hostname = sys.argv[3]
 	elif not valid_address(sys.argv[3]):
 		print("Error: The provided ipv4_address argument is not valid.")
+		sys.exit(2)
 	else:
 		hostname = "127.0.0.1" # aka. localhost
 

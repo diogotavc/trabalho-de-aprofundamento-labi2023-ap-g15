@@ -286,7 +286,7 @@ def main():
             # Sockets may have been closed, check for that
             for client_sock in clients:
                 if client_sock.fileno() == -1:
-                    client_sock.remove(client_sock)  # closed
+                    clients.remove(client_sock)  # closed
             continue  # Reiterate select
 
         for client_sock in available:

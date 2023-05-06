@@ -121,7 +121,7 @@ def main():
 	client_id = sys.argv[1]
 	
 	# obtain the port number
-	if (sys.argv[2].isnumeric()):
+	if (sys.argv[2].isnumeric()) and (1024 <= int(sys.argv[2]) <= 65535):
 		port = int(sys.argv[2])
 	else:
 		print(text.YELLOW + "Error: The provided port argument is not valid.\n" + text.END)

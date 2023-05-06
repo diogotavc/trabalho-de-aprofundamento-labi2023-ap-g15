@@ -11,6 +11,18 @@ from common_comm import send_dict, recv_dict, sendrecv_dict
 from Cryptodome.Cipher import AES
 from Cryptodome.Hash import SHA256
 
+class text:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+
 # Function to encript values for sending in json format
 # return int data encrypted in a 16 bytes binary string coded in base64
 def encrypt_intvalue (cipherkey, data):
@@ -88,12 +100,22 @@ def valid_address(address):
     except ipaddress.AddressValueError:
         return False
 
+def bad_usage():
+    print("Usage: python {} <client_id> <port> [<ipv4_address>]".format(sys.argv[0]))
+    print("")
+    print("Arguments:")
+    print("  <client_id>      The ID of the client.")
+    print("  <port>           The port number to use for the connection.")
+    print("")
+    print("Optional arguments:")
+    print("  <ipv4_address>   The IPv4 address of the client.")
+    print("                   If not specified, the client will connect to localhost.")
+    sys.exit(2)
 
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
 	if len(sys.argv) < 3 or len(sys.argv) > 4:
-		print("Usage: python client.py <client_id> <port> [<ipv4_address>]\n\nArguments:\n  <client_id>      The ID of the client.\n  <port>           The port number to use for the connection.\n\nOptional arguments:\n  <ipv4_address>   The IPv4 address of the client. If not specified, the client will connect to the server running locally.")
-		sys.exit(2)
+		bad_usage()
 		
 	# verify type of of arguments and eventually print error message and exit with error
 	client_id = sys.argv[1]
@@ -102,15 +124,15 @@ def main():
 	if (sys.argv[2].isnumeric()):
 		port = int(sys.argv[2])
 	else:
-		print("Error: The provided port argument is not valid.")
-		sys.exit(2)
+		print(text.YELLOW + "Error: The provided port argument is not valid.\n" + text.END)
+		bad_usage()
 
 	# obtain the hostname that can be the localhost or another host
 	if len(sys.argv) == 4 and valid_address(sys.argv[3]):
 		hostname = sys.argv[3]
 	elif len(sys.argv) == 4 and not valid_address(sys.argv[3]):
-		print("Error: The provided ipv4_address argument is not valid.")
-		sys.exit(2)
+		print(text.YELLOW + "Error: The provided ipv4_address argument is not valid.\n" + text.END)
+		bad_usage()
 	else:
 		hostname = "127.0.0.1" # aka. localhost
 

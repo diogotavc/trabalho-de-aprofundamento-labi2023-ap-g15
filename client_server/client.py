@@ -103,7 +103,7 @@ def quit_action(client_sock, attempts):
 # { op = "GUESS", status, result }
 
 #
-# Suport for executing the client pretended behaviour
+# Support for executing the client pretended behaviour
 #
 def run_client(client_sock, client_id):
     # Send client ID to server

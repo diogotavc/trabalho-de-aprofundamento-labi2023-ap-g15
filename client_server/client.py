@@ -25,6 +25,15 @@ class text:
     END = '\033[0m'
 
 
+class log_levels:
+    FATAL = text.RED + "[FATAL]" + text.END
+    ERROR = text.RED + "[ERROR]" + text.END
+    WARN = text.YELLOW + "[WARN]" + text.END
+    INFO =  text.GREEN + "[INFO]" + text.END
+    DEBUG = text.GREEN + "[DEBUG]" + text.END
+    TRACE = text.GREEN + "[TRACE]" + text.END
+
+
 # Function to encript values for sending in json format
 # return int data encrypted in a 16 bytes binary string coded in base64
 def encrypt_intvalue(cipherkey, data):
@@ -147,6 +156,7 @@ def bad_usage():
 def main():
     # validate the number of arguments and eventually print error message and exit with error
     if len(sys.argv) < 3 or len(sys.argv) > 4:
+        print(log_levels.ERROR, "No arguments provided.\n")
         bad_usage()
 
     # verify type of arguments and eventually print error message and exit with error
@@ -156,21 +166,25 @@ def main():
     if (sys.argv[2].isnumeric()) and (1024 <= int(sys.argv[2]) <= 65535):
         port = int(sys.argv[2])
     else:
-        print(text.YELLOW + "Error: The provided port argument is not valid.\n" + text.END)
+        print(log_levels.ERROR, "The provided port argument is not valid.\n")
         bad_usage()
 
     # obtain the hostname that can be the localhost or another host
     if len(sys.argv) == 4 and valid_address(sys.argv[3]):
         hostname = sys.argv[3]
     elif len(sys.argv) == 4 and not valid_address(sys.argv[3]):
-        print(text.YELLOW + "Error: The provided ipv4_address argument is not valid.\n" + text.END)
+        print(log_levels.ERROR, "The provided ipv4_address argument is not valid.\n")
         bad_usage()
     else:
         hostname = "127.0.0.1"  # aka. localhost
 
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.bind(("0.0.0.0", 0))
-    client_socket.connect((hostname, port))
+    try:
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.bind(("0.0.0.0", 0))
+        client_socket.connect((hostname, port))
+    except:
+        print(log_levels.ERROR, f"Failed to connect to {hostname} at port {port}.")
+        sys.exit(1)
 
     run_client(client_socket, sys.argv[1])
 

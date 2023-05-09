@@ -46,7 +46,7 @@ def encrypt_intvalue(cipherkey, data):
     
     encrypted = cipher.encrypt(sixteenByteData)
 
-    base64 = b64encode(encrypted).decode('ascii')
+    base64 = base64.b64encode(encrypted).decode('ascii')
     
     return base64
 
@@ -55,7 +55,7 @@ def encrypt_intvalue(cipherkey, data):
 # return int data decrypted from a 16 bytes binary strings coded in base64
 def decrypt_intvalue(cipherkey, data):
 
-    encrypted = b64decode(data)
+    encrypted = base64.b64decode(data)
     
     cipher = AES.new(cipherkey, AES.MODE_ECB)
     

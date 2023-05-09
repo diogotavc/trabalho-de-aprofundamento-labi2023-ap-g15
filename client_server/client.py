@@ -28,13 +28,35 @@ class text:
 # Function to encript values for sending in json format
 # return int data encrypted in a 16 bytes binary string coded in base64
 def encrypt_intvalue(cipherkey, data):
-    return None
+
+    intToBytes = data.to_bytes((data.bit_length() + 7) // 8, byteorder='big')
+    
+    sixteenByteData = intToBytes.ljust(16 * ((len(intToBytes) + 15) // 16), b'\0')
+    
+    cipher = AES.new(cipherkey, AES.MODE_ECB)
+    
+    encrypted = cipher.encrypt(sixteenByteData)
+
+    base64 = b64encode(encrypted).decode('ascii')
+    
+    return base64
 
 
 # Function to decript values received in json format
 # return int data decrypted from a 16 bytes binary strings coded in base64
 def decrypt_intvalue(cipherkey, data):
-    return None
+
+    encrypted = b64decode(data)
+    
+    cipher = AES.new(cipherkey, AES.MODE_ECB)
+    
+    decrypted = cipher.decrypt(encrypted)
+    
+    finalData = decrypted.rstrip(b'\0')
+
+    int = int.from_bytes(finalData, byteorder='big')
+    
+    return int
 
 
 # verify if response from server is valid or is an error message and act accordingly - já está implementada

@@ -15,6 +15,7 @@ from Cryptodome.Hash import SHA256
 # Dicionário com a informação relativa aos clientes
 users = {}
 
+
 # return the client_id of a socket or None
 
 
@@ -23,7 +24,7 @@ def find_client_id(client_sock):
     for client_id in users:
         if users[client_id]["socket"] == client_sock:
             return client_id
-        
+
     return "Not found"
 
 
@@ -133,6 +134,7 @@ def new_msg(client_sock):
     # print (response)
     send_dict(client_sock, response)
 
+
 #
 # Suporte da criação de um novo cliente - operação START
 #
@@ -144,13 +146,13 @@ def new_msg(client_sock):
 
 def new_client(client_sock, request):
     client_id = request["client_id"]
-	# Verifica se a ligação é segura
-    if request["cipher"] == None:
+    # Verifica se a ligação é segura
+    if request["cipher"] is None:
         cipher = None
     else:
         cipher = base64.b64decode(request["cipher"])
-    
-	# Verifica se o cliente já está ligado, e adiciona-o caso contrário
+
+    # Verifica se o cliente já está ligado, e adiciona-o caso contrário
     if client_id not in users:
         users[client_id] = {"socket": client_sock, "cipher": cipher, "numbers": []}
         return {"op": "START", "status": True}
@@ -184,6 +186,7 @@ def quit_client(client_sock):
     else:
         return {"op": "QUIT", "status": False, "error": "Client not registered"}
 
+
 #
 # Suporte da criação de um ficheiro csv com o respectivo cabeçalho - já está implementada
 #
@@ -214,7 +217,7 @@ def number_client(client_sock, request):
     # acho que é melhor usar find_client_id ao invés de request
     client_id = find_client_id(client_sock)
 
-	# Se não estiver registado, dá erro:
+    # Se não estiver registado, dá erro:
     if client_id not in users:
         return {"op": "NUMBER", "status": False, "error": "Cliente ainda não está registado"}
 

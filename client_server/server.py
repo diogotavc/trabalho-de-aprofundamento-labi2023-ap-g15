@@ -305,10 +305,9 @@ def stop_client(client_sock, request):
 # verify the appropriate conditions for executing this operation
 # eliminate client from dictionary
 # return response message with result or error message
-import json
 
 def guess_client(client_sock, request):
-    # obtain the client_id from his socket
+
     client_id = get_client_id(client_sock)
 
 

@@ -141,7 +141,7 @@ def valid_address(address):
 
 
 def bad_usage():
-    print("Usage: python {} <client_id> <port> [<ipv4_address>]".format(sys.argv[0]))
+    print(f"Usage: python {sys.argv[0]} <client_id> <port> [<ipv4_address>]")
     print("")
     print("Arguments:")
     print("  <client_id>      The ID of the client.")

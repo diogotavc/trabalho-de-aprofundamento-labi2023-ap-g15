@@ -12,6 +12,29 @@ from common_comm import send_dict, recv_dict, sendrecv_dict
 from Cryptodome.Cipher import AES
 from Cryptodome.Hash import SHA256
 
+
+class text:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
+
+
+class log_levels:
+    FATAL = text.RED + "[FATAL]" + text.END
+    ERROR = text.RED + "[ERROR]" + text.END
+    WARN = text.YELLOW + "[WARN]" + text.END
+    INFO =  text.GREEN + "[INFO]" + text.END
+    DEBUG = text.GREEN + "[DEBUG]" + text.END
+    TRACE = text.GREEN + "[TRACE]" + text.END
+
+
 # Dicionário com a informação relativa aos clientes
 users = {}
 
@@ -286,16 +309,31 @@ def guess_client(client_sock, request):
     return None
 
 
+def bad_usage():
+    print(f"Usage: python {sys.argv[0]} <port>")
+    print("")
+    print("Arguments:")
+    print("  <port>           The port number to use for the connection.")
+    sys.exit(2)
+
+
 def main():
     # validate the number of arguments and eventually print error message and exit with error
     # verify type of of arguments and eventually print error message and exit with error
 
-    if len(sys.argv) < 2 or not sys.argv[1].isdigit():
-        print("Usage: python3 {} port".format(sys.argv[0]))
-        sys.exit(1)
+    if len(sys.argv) < 2:
+        print(log_levels.ERROR, "No arguments provided.\n")
+        bad_usage()
+    elif len(sys.argv) > 2:
+        print(log_levels.ERROR, "Too many arguments provided.\n")
+        bad_usage()
 
     # obtain the port number
-    port = int(sys.argv[1])
+    if (sys.argv[1].isnumeric()) and (1024 <= int(sys.argv[1]) <= 65535):
+        port = int(sys.argv[1])
+    else:
+        print(log_levels.ERROR, "The provided port argument is not valid.\n")
+        bad_usage()
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(("127.0.0.1", port))

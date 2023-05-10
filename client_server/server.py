@@ -284,21 +284,21 @@ def stop_client(client_sock, request):
 # eliminate client from dictionary
 # return response message with result or error message
 
-def guess_client(client_sock, request):
+def guess_client(client_sock, request , clients):
 
     client_id = get_client_id(client_sock)
 
 
     if client_id not in clients:
-        return create_error_response(f"Client {client_id} not found")
+        print(f"Client {client_id} not found")
     if not clients[client_id]["finished"]:
-        return create_error_response(f"Client {client_id} has not finished sending data")
+        print(f"Client {client_id} has not finished sending data")
 
     client_data = clients.pop(client_id)
 
     chosen_value = client_data["chosen_value"]
     if chosen_value is None:
-        return create_error_response(f"Client {client_id} has not received chosen value")
+        print(f"Client {client_id} has not received chosen value")
 
     client_values = client_data["values"]
     result = None
@@ -310,7 +310,7 @@ def guess_client(client_sock, request):
         result = "O numero escolhido foi o minimo"
     elif chosen_value == max(client_values):
         result = "O numero escolhido foi o maximo"
-    elif len(client_values) % 2 != 0 and int(chosen_value) == sorted(numbers)[len(numbers) // 2]:
+    elif len(client_values) % 2 != 0 and int(chosen_value) == sorted(client_values)[len(client_values) // 2]:
         result = "O numero escolhido foi @ mediana"
 
     with open("report.csv", "a") as f:

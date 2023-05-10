@@ -100,10 +100,11 @@ def stop_action(client_sock):
     sys.exit(0)
 
 # process GUESS operation
-def guess_action(client_sock, attempts):
+def guess_action(client_sock, choice):
     # Send the QUIT operation to the server
     guess_request = {
-        'op': 'GUESS'
+        'op': 'GUESS',
+        'choice': choice
     }
     guess_response = sendrecv_dict(client_sock, guess_request)
     validate_response(client_sock, guess_response)

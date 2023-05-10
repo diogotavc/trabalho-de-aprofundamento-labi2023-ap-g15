@@ -36,14 +36,14 @@ class log_levels:
 
 # Function to encript values for sending in json format
 # return int data encrypted in a 16 bytes binary string coded in base64
-def encrypt_intvalue(cipherkey, data):
-    return None
+# def encrypt_intvalue(cipherkey, data):
+#     return None
 
 
-# Function to decript values received in json format
-# return int data decrypted from a 16 bytes binary strings coded in base64
-def decrypt_intvalue(cipherkey, data):
-    return None
+# # Function to decript values received in json format
+# # return int data decrypted from a 16 bytes binary strings coded in base64
+# def decrypt_intvalue(cipherkey, data):
+#     return None
 
 
 # verify if response from server is valid or is an error message and act accordingly - já está implementada

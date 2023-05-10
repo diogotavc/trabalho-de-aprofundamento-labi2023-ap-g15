@@ -131,18 +131,18 @@ def run_client(client_sock, client_id):
     start_action(client_sock, client_id)
 
     while True:
-        input = input("").lower()
-        if input == "quit" or input == "q":
+        user_input = input("").lower()
+        if user_input == "quit" or user_input == "q":
             quit_action(client_sock, 0)
-        elif input.isnumeric():
-            number_action(client_sock, int(input))
-        elif input == "guess" or input == "g":
+        elif user_input.isnumeric():
+            number_action(client_sock, int(user_input))
+        elif user_input == "guess" or user_input == "g":
             choice = input("guess [not implemented]")
             guess_action(client_sock, choice)
-        elif input == "stop" or input == "s" or input == "":
+        elif user_input == "stop" or user_input == "s" or user_input == "":
             stop_action(client_sock)
         else:
-            print(log_levels.WARN + "Invalid input")
+            print(log_levels.WARN, "Invalid input")
 
 
 def valid_address(address):

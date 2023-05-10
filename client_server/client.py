@@ -128,30 +128,21 @@ def guess_action(client_sock, choice):
 # Support for executing the client pretended behaviour
 #
 def run_client(client_sock, client_id):
-    # Send client ID to server
-    client_sock.sendall(str(client_id).encode())
+    start_action(client_sock, client_id)
 
-    numbers = []
-    for num in numbers:
-        client_sock.sendall(str(num).encode())
-
-    client_sock.sendall(b"Foram enviados todos os numeros")
-
-    nrescolhido = client_sock.recv(1024).decode()
-
-    print(f"Numbers sent: {numbers}")
-    print(f"Chosen number: {nrescolhido}")
-
-    if int(nrescolhido) == numbers[0]:
-        print("O numero escolhido foi o primeiro numero")
-    elif int(nrescolhido) == numbers[-1]:
-        print("O numero escolhido foi o ultimo numero")
-    elif int(nrescolhido) == min(numbers):
-        print("O numero escolhido foi o minimo")
-    elif int(nrescolhido) == max(numbers):
-        print("O numero escolhido foi o maximo")
-    elif len(numbers) % 2 != 0 and int(nrescolhido) == sorted(numbers)[len(numbers) // 2]:
-        print("O numero escolhido foi @ mediana")
+    while True:
+        input = input("").lower()
+        if input == "quit" or input == "q":
+            quit_action(client_sock, 0)
+        elif input.isnumeric():
+            number_action(client_sock, int(input))
+        elif input == "guess" or input == "g":
+            choice = input("guess [not implemented]")
+            guess_action(client_sock, choice)
+        elif input == "stop" or input == "s" or input == "":
+            stop_action(client_sock)
+        else:
+            print(log_levels.WARN + "Invalid input")
 
 
 def valid_address(address):

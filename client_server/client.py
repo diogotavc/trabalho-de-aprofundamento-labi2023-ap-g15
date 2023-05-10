@@ -52,10 +52,23 @@ def validate_response(client_sock, response):
         print(response["error"])
         client_sock.close()
         sys.exit(3)
-
+#
+# ACTION REQUESTS
+# not yet implemented fully
+#
+# process START operation
+def start_action(client_sock, client_id):
+    # Send the START operation to the server
+    start_request = {
+        'op': 'START',
+        'client_id': client_id,
+        'cipher': None
+    }
+    start_response = sendrecv_dict(client_sock, start_request)
+    validate_response(client_sock, start_response)
 
 # process QUIT operation
-def quit_action(client_sock, attempts):
+def quit_action(client_sock):
     # Send the QUIT operation to the server
     quit_request = {
         'op': 'QUIT'
@@ -65,8 +78,18 @@ def quit_action(client_sock, attempts):
     client_sock.close()
     sys.exit(0)
 
+# process number operation
+def number_action(client_sock, number):
+    # Send the QUIT operation to the server
+    number_request = {
+        'op': 'NUMBER',
+        'number': number
+    }
+    number_response = sendrecv_dict(client_sock, number_request)
+    validate_response(client_sock, number_response)
+
 # process STOP operation
-def stop_action(client_sock, attempts):
+def stop_action(client_sock):
     # Send the QUIT operation to the server
     stop_request = {
         'op': 'STOP'
@@ -75,6 +98,15 @@ def stop_action(client_sock, attempts):
     validate_response(client_sock, stop_response)
     client_sock.close()
     sys.exit(0)
+
+# process GUESS operation
+def guess_action(client_sock, attempts):
+    # Send the QUIT operation to the server
+    guess_request = {
+        'op': 'GUESS'
+    }
+    guess_response = sendrecv_dict(client_sock, guess_request)
+    validate_response(client_sock, guess_response)
 
 
 # Outcomming message structure:

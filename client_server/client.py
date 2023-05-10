@@ -65,6 +65,17 @@ def quit_action(client_sock, attempts):
     client_sock.close()
     sys.exit(0)
 
+# process STOP operation
+def stop_action(client_sock, attempts):
+    # Send the QUIT operation to the server
+    stop_request = {
+        'op': 'STOP'
+    }
+    stop_response = sendrecv_dict(client_sock, stop_request)
+    validate_response(client_sock, stop_response)
+    client_sock.close()
+    sys.exit(0)
+
 
 # Outcomming message structure:
 # { op = "START", client_id, [cipher] }

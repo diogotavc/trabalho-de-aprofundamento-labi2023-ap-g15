@@ -154,7 +154,7 @@ def valid_address(address):
 
 
 def bad_usage():
-    print(f"Usage: python {sys.argv[0]} <client_id> <port> [<ipv4_address>]")
+    print(text.BOLD + f"Usage: python {sys.argv[0]} <client_id> <port> [<ipv4_address>]" + text.END)
     print("")
     print("Arguments:")
     print("  <client_id>      The ID of the client.")
@@ -199,6 +199,8 @@ def main():
         print(log_levels.ERROR, f"Failed to connect to {hostname} at port {port}.")
         sys.exit(1)
 
+    print(log_levels.INFO, f"Successfully connected to {hostname} at port {port}")
+    
     run_client(client_socket, sys.argv[1])
 
     client_socket.close()
@@ -206,4 +208,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n" + log_levels.INFO, "Client terminated by user.")
+        sys.exit(0)

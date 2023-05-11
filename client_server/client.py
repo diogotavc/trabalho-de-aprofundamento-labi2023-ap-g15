@@ -84,29 +84,40 @@ def validate_response(client_sock, response):
 
 
 # process START operation
-def start_action(client_sock):
-	return None
-
+def start_action(client_sock, client_id):
+	request = { "op": "START", "client_id": client_id}
+	response = sendrecv_dict(client_sock, request)
+	validate_response(client_sock, response)
 
 # process QUIT operation
 def quit_action(client_sock):
-	return None
+	request = { "op": "QUIT"}
+	response = sendrecv_dict(client_sock, request)
+	validate_response(client_sock, response)
+	# Once done, tell the system to exit
+	client_sock.close()
+	sys.exit(0)
 
 
 # process NUMBER operation
-def number_action(client_sock):
-	return None
+def number_action(client_sock, number):
+	request = { "op": "START", "number": number}
+	response = sendrecv_dict(client_sock, request)
+	validate_response(client_sock, response)
 
 
 # process STOP operation
 def stop_action(client_sock):
-	return None
+	request = { "op": "STOP" }
+	response = sendrecv_dict(client_sock, request)
+	validate_response(client_sock, response)
 
 
 # process GUESS operation
-
-def guess_action(client_sock):
-	return None
+def guess_action(client_sock, choice):
+	request = { "op": "GUESS", "choice": choice}
+	response = sendrecv_dict(client_sock, request)
+	validate_response(client_sock, response)
 
 
 # Outcomming message structure:

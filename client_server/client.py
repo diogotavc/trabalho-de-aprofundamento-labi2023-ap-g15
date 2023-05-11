@@ -199,7 +199,7 @@ def main():
         print(log_levels.ERROR, f"Failed to connect to {hostname} at port {port}.")
         sys.exit(1)
 
-    print(log_levels.INFO, f"Successfully connected to {hostname} at port {port}")
+    print(log_levels.INFO, f"Successfully connected to {hostname} at port {port}.")
     
     run_client(client_socket, sys.argv[1])
 
@@ -211,5 +211,6 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\n" + log_levels.INFO, "Client terminated by user.")
+        print("\n" + log_levels.INFO, "Exiting..")
+        print(log_levels.INFO, "Client terminated by user.")
         sys.exit(0)

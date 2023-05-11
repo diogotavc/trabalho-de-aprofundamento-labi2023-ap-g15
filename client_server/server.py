@@ -159,7 +159,7 @@ def new_msg(client_sock):
 	if op == "START":
 		response = new_client(client_sock, request)
 	elif op == "QUIT":
-		response = quit_client(client_sock, request)
+		response = quit_client(client_sock)
 	elif op == "NUMBER":
 		response = number_client(client_sock, request)
 	elif op == "STOP":

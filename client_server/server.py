@@ -198,7 +198,7 @@ def new_client(client_sock, request):
 def clean_client(client_sock):
 	client_id = find_client_id(client_sock)
 	if client_id != None:
-		print("Client %s removed\n" % client_id)
+		print(log_levels.INFO, f"Client {client_id} was successfully removed.\n")
 		del users[client_id]
 
 

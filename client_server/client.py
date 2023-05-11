@@ -133,7 +133,7 @@ def run_client(client_sock, client_id):
     while True:
         user_input = input("").lower()
         if user_input == "quit" or user_input == "q":
-            quit_action(client_sock, 0)
+            quit_action(client_sock)
         elif user_input.isnumeric():
             number_action(client_sock, int(user_input))
         elif user_input == "guess" or user_input == "g":

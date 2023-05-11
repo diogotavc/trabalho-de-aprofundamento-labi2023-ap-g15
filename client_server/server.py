@@ -167,7 +167,7 @@ def new_msg(client_sock):
 	elif op == "GUESS":
 		response = guess_client(client_sock, request)
 	else:
-		response = {"op": op, "status": False, "error": "Operação inexistente"}
+		response = {"op": op, "status": False, "error": "Unknown operation."}
 
 	# print (response)
 	send_dict(client_sock, response)

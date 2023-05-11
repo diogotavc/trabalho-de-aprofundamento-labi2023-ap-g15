@@ -132,6 +132,13 @@ def guess_action(client_sock):
 	print(log_levels.INFO, "Exiting..")
 
 
+# process UNKNOWN operation
+def unknown_action(client_sock):
+	request = { "op": "UNKNOWN"}
+	response = sendrecv_dict(client_sock, request)
+	validate_response(client_sock, response)
+
+
 
 # Outcomming message structure:
 # { op = "START", client_id, [cipher] }
@@ -166,7 +173,7 @@ def run_client(client_sock, client_id):
 		elif user_input == "quit" or user_input == "q" or user_input == "":
 			quit_action(client_sock)
 		else:
-			print(log_levels.WARN, "Invalid input.")
+			unknown_action(client_sock)
 
 
 def main():

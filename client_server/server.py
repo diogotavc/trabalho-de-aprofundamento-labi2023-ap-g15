@@ -144,7 +144,7 @@ def new_msg(client_sock):
     if op == "START":
         response = new_client(client_sock, request)
     elif op == "QUIT":
-        response = quit_client(client_sock, request)
+        response = quit_client(client_sock)
     elif op == "NUMBER":
         response = number_client(client_sock, request)
     elif op == "STOP":
@@ -203,7 +203,7 @@ def clean_client(client_sock):
 # eliminate client from dictionary using the function clean_client
 # return response message with or without error message
 def quit_client(client_sock):
-    if find_client_id(client_sock) in users:
+    if find_client_id(client_sock) in users.keys():
         clean_client(client_sock)
         return {"op": "QUIT", "status": True}
     else:
@@ -247,14 +247,7 @@ def number_client(client_sock, request):
     # Se estiver registado:
     else:
         try:
-            # Se a ligação não for segura, guarda o que recebe sem decriptar
-            if users[client_id]["cipher"] == None:
-                users[client_id]["numbers"].append(int(request["number"]))
-            else:
-                # Decripta a informação antes de a guardar
-                users[client_id]["numbers"].append(decrypt_intvalue(
-                    users[client_id]["cipher"], request["number"]))
-
+            users[client_id]["numbers"].append(request["number"])
             return {"op": "NUMBER", "status": True}
 
         except:

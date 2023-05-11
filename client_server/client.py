@@ -5,6 +5,7 @@ import sys
 import socket
 import json
 import base64
+import ipaddress
 from common_comm import send_dict, recv_dict, sendrecv_dict
 
 from Cryptodome.Cipher import AES
@@ -50,6 +51,15 @@ def usage():
     print("                   If not specified, the client will connect to localhost.")
     sys.exit(2)
 
+
+# Function to check whether an ipaddress is valid or otherwise
+
+def valid_address(address):
+	try:
+		ipaddress.IPv4Address(address)
+		return True
+	except ipaddress.AddressValueError:
+		return False
 
 # Function to encript values for sending in json format
 # return int data encrypted in a 16 bytes binary string coded in base64

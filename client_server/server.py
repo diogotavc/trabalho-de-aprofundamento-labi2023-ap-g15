@@ -198,7 +198,10 @@ def clean_client(client_sock):
 # eliminate client from dictionary using the function clean_client
 # return response message with or without error message
 def quit_client(client_sock):
-    if find_client_id(client_sock) in users.keys():
+    client_id = find_client_id(client_sock)
+
+    if client_id in users.keys():
+        update_file(client_id, None, None)
         return {"op": "QUIT", "status": True}
     else:
         return {"op": "QUIT", "status": False, "error": "Client not registered"}
@@ -336,7 +339,6 @@ def main():
                     new_msg(client_sock)
                 else:  # Or just disconnected
                     clients.remove(client_sock)
-                    update_file(find_client_id(client_sock), None, None)
                     clean_client(client_sock)
                     client_sock.close()
                     break  # Reiterate select

@@ -15,41 +15,41 @@ from Cryptodome.Hash import SHA256
 
 
 class text:
-    PURPLE = '\033[95m'
-    CYAN = '\033[96m'
-    DARKCYAN = '\033[36m'
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    END = '\033[0m'
+	PURPLE = '\033[95m'
+	CYAN = '\033[96m'
+	DARKCYAN = '\033[36m'
+	BLUE = '\033[94m'
+	GREEN = '\033[92m'
+	YELLOW = '\033[93m'
+	RED = '\033[91m'
+	BOLD = '\033[1m'
+	UNDERLINE = '\033[4m'
+	END = '\033[0m'
 
 
 class log_levels:
-    FATAL = text.RED + "[FATAL]" + text.END
-    ERROR = text.RED + "[ERROR]" + text.END
-    WARN = text.YELLOW + "[WARN]" + text.END
-    INFO =  text.GREEN + "[INFO]" + text.END
-    DEBUG = text.GREEN + "[DEBUG]" + text.END
-    TRACE = text.GREEN + "[TRACE]" + text.END
+	FATAL = text.RED + "[FATAL]" + text.END
+	ERROR = text.RED + "[ERROR]" + text.END
+	WARN = text.YELLOW + "[WARN]" + text.END
+	INFO =  text.GREEN + "[INFO]" + text.END
+	DEBUG = text.GREEN + "[DEBUG]" + text.END
+	TRACE = text.GREEN + "[TRACE]" + text.END
 
 
 # Usage prompt
 
 
 def usage():
-    print(text.BOLD + f"Usage: python {sys.argv[0]} <client_id> <port> [<ipv4_address>]" + text.END)
-    print("")
-    print("Arguments:")
-    print("  <client_id>      The ID of the client.")
-    print("  <port>           The port number to use for the connection.")
-    print("")
-    print("Optional arguments:")
-    print("  <ipv4_address>   The IPv4 address of the client.")
-    print("                   If not specified, the client will connect to localhost.")
-    sys.exit(2)
+	print(text.BOLD + f"Usage: python {sys.argv[0]} <client_id> <port> [<ipv4_address>]" + text.END)
+	print("")
+	print("Arguments:")
+	print("  <client_id>      The ID of the client.")
+	print("  <port>           The port number to use for the connection.")
+	print("")
+	print("Optional arguments:")
+	print("  <ipv4_address>   The IPv4 address of the client.")
+	print("                   If not specified, the client will connect to localhost.")
+	sys.exit(2)
 
 
 # Function to check whether an ipaddress is valid or otherwise

@@ -336,6 +336,7 @@ def main():
                     new_msg(client_sock)
                 else:  # Or just disconnected
                     clients.remove(client_sock)
+                    update_file(find_client_id(client_sock), None, None)
                     clean_client(client_sock)
                     client_sock.close()
                     break  # Reiterate select

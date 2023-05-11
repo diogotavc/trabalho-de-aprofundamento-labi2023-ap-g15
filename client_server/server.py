@@ -286,7 +286,7 @@ def stop_client(client_sock, request):
 
 def guess_client(client_sock, request , clients):
 
-    client_id = get_client_id(client_sock)
+    client_id = find_client_id(client_sock)
 
 
     if client_id not in clients:

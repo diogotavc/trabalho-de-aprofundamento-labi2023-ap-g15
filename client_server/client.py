@@ -77,8 +77,14 @@ def decrypt_intvalue(cipherkey, data):
 
 # verify if response from server is valid or is an error message and act accordingly - já está implementada
 def validate_response(client_sock, response):
-	if not response["status"]:
-		print(log_levels.WARN, response["error"])
+	try:
+		if not response["status"]:
+			print(log_levels.WARN, response["error"])
+			client_sock.close()
+			sys.exit(3)
+	except:
+		print(log_levels.FATAL, "Failed to receive package from server.")
+		print(log_levels.INFO, "Exiting..")
 		client_sock.close()
 		sys.exit(3)
 

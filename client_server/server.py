@@ -175,7 +175,7 @@ def new_client(client_sock, request):
         users[client_id] = {"socket": client_sock, "cipher": None, "numbers": []}
         return {"op": "START", "status": True}
     else:
-        return {"op": "START", "status": False, "error": "Cliente já registado"}
+        return {"op": "START", "status": False, "error": "Client is already registered."}
 
 
 #
@@ -204,7 +204,7 @@ def quit_client(client_sock):
         update_file(client_id, None, None)
         return {"op": "QUIT", "status": True}
     else:
-        return {"op": "QUIT", "status": False, "error": "Client not registered"}
+        return {"op": "QUIT", "status": False, "error": "Client not registered."}
 
 
 #
@@ -244,7 +244,7 @@ def number_client(client_sock, request):
 
     # Se não estiver registado, dá erro:
     if client_id not in users:
-        return {"op": "NUMBER", "status": False, "error": "Cliente ainda não está registado"}
+        return {"op": "NUMBER", "status": False, "error": "Cliente is not yet registered."}
 
     # Se estiver registado:
     else:

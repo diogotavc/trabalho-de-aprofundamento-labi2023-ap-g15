@@ -12,6 +12,31 @@ from common_comm import send_dict, recv_dict, sendrecv_dict
 from Cryptodome.Cipher import AES
 from Cryptodome.Hash import SHA256
 
+# Support for colours and log levels
+
+
+class text:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
+
+
+class log_levels:
+    FATAL = text.RED + "[FATAL]" + text.END
+    ERROR = text.RED + "[ERROR]" + text.END
+    WARN = text.YELLOW + "[WARN]" + text.END
+    INFO =  text.GREEN + "[INFO]" + text.END
+    DEBUG = text.GREEN + "[DEBUG]" + text.END
+    TRACE = text.GREEN + "[TRACE]" + text.END
+
+
 # Dicionário com a informação relativa aos clientes
 users = {}
 

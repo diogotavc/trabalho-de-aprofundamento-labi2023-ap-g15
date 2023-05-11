@@ -111,13 +111,26 @@ def stop_action(client_sock):
 	request = { "op": "STOP" }
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
+	value = response["value"]
+	print(f"The chosen number is: {value}")
+	guess_action(client_sock)
 
 
 # process GUESS operation
-def guess_action(client_sock, choice):
+def guess_action(client_sock):
+	print("Valid options: min, max, first, last, median")
+	choice = input("Guess: ").lower()
 	request = { "op": "GUESS", "choice": choice}
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
+	# Congratulate the user (or not)
+	if response["result"]:
+		print("Well done!")
+	else:
+		print("Better luck next time!")
+	# Tell the system to exit
+	print(log_levels.INFO, "Exiting..")
+
 
 
 # Outcomming message structure:

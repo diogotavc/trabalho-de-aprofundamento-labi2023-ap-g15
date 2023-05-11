@@ -182,7 +182,13 @@ def new_msg(client_sock):
 
 
 def new_client(client_sock, request):
-	return None
+	client_id = request["client_id"]
+
+	if find_client_id(client_sock) is not None or client_id in users:
+		return { "op": "START", "status": False, "error": "User is already registered."}
+	else:
+		users[client_id] = { "sock": client_sock, "cipher": None, "numbers": [] }
+		return { "op": "START", "status": True }
 
 
 #

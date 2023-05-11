@@ -266,9 +266,18 @@ def guess_client(client_sock, request):
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
 	# verify type of of arguments and eventually print error message and exit with error
+	if len(sys.argv) < 2:
+		print(log_levels.ERROR, "No arguments provided.\n")
+		usage()
+	elif len(sys.argv) > 2:
+		print(log_levels.ERROR, "Too many arguments provided.\n")
 
 	# obtain the port number
-	# port = ?
+	if (sys.argv[1].isnumeric()) and (1024 <= int(sys.argv[1]) <= 65535):
+		port = int(sys.argv[1])
+	else:
+		print(log_levels.ERROR, "The provided port argument is not valid.\n")
+		usage()
 
 	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_socket.bind(("127.0.0.1", port))

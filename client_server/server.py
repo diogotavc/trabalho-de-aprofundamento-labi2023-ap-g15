@@ -199,7 +199,6 @@ def clean_client(client_sock):
 # return response message with or without error message
 def quit_client(client_sock):
     if find_client_id(client_sock) in users.keys():
-        clean_client(client_sock)
         return {"op": "QUIT", "status": True}
     else:
         return {"op": "QUIT", "status": False, "error": "Client not registered"}

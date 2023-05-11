@@ -131,7 +131,7 @@ def run_client(client_sock, client_id):
     start_action(client_sock, client_id)
 
     while True:
-        user_input = input("").lower()
+        user_input = input("Input (q)uit, (s)top, (g)uess, or a number: ").lower()
         if user_input == "quit" or user_input == "q":
             quit_action(client_sock)
         elif user_input.isnumeric():

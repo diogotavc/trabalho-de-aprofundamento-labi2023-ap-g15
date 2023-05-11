@@ -53,14 +53,14 @@ def find_client_id(client_sock):
 
 # Função para encriptar valores a enviar em formato json com codificação base64
 # return int data encrypted in a 16 bytes binary string and coded base64
-def encrypt_intvalue(client_id, data):
-    return None
+# def encrypt_intvalue(client_id, data):
+#     return None
 
 
-# Função para desencriptar valores recebidos em formato json com codificação base64
-# return int data decrypted from a 16 bytes binary string and coded base64
-def decrypt_intvalue(client_id, data):
-    return None
+# # Função para desencriptar valores recebidos em formato json com codificação base64
+# # return int data decrypted from a 16 bytes binary string and coded base64
+# def decrypt_intvalue(client_id, data):
+#     return None
 
 
 # Função auxiliar para gerar o resultado - já está implementada

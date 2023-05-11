@@ -130,6 +130,8 @@ def guess_action(client_sock):
 		print("Better luck next time!")
 	# Tell the system to exit
 	print(log_levels.INFO, "Exiting..")
+	client_sock.close()
+	sys.exit(0)
 
 
 # process UNKNOWN operation

@@ -283,46 +283,8 @@ def stop_client(client_sock, request):
 # verify the appropriate conditions for executing this operation
 # eliminate client from dictionary
 # return response message with result or error message
-
-def guess_client(client_sock, request , clients):
-
-    client_id = find_client_id(client_sock)
-
-
-    if client_id not in clients:
-        print(f"Client {client_id} not found")
-    if not clients[client_id]["finished"]:
-        print(f"Client {client_id} has not finished sending data")
-
-    client_data = clients.pop(client_id)
-
-    chosen_value = client_data["chosen_value"]
-    if chosen_value is None:
-        print(f"Client {client_id} has not received chosen value")
-
-    client_values = client_data["values"]
-    result = None
-    if chosen_value == client_values[0]:
-        result = "O numero escolhido foi o primeiro numero"
-    elif chosen_value == client_values[-1]:
-        result = "O numero escolhido foi o ultimo numero"
-    elif chosen_value == min(client_values):
-        result = "O numero escolhido foi o minimo"
-    elif chosen_value == max(client_values):
-        result = "O numero escolhido foi o maximo"
-    elif len(client_values) % 2 != 0 and int(chosen_value) == sorted(client_values)[len(client_values) // 2]:
-        result = "O numero escolhido foi @ mediana"
-
-    with open("report.csv", "a") as f:
-        f.write(f"{client_id},{len(client_values)},{result}\n")
-
-    response = {
-        "type": "response",
-        "status": "success",
-        "message": f"Chosen value was {chosen_value}. Guessed {result}" if result else f"Chosen value was {chosen_value}. Could not guess"
-    }
-    return json.dumps(response).encode()
-
+def guess_client(client_sock, request):
+    return None
 
 
 def bad_usage():

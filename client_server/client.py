@@ -83,8 +83,29 @@ def validate_response(client_sock, response):
 		sys.exit(3)
 
 
+# process START operation
+def start_action(client_sock):
+	return None
+
+
 # process QUIT operation
-def quit_action(client_sock, attempts):
+def quit_action(client_sock):
+	return None
+
+
+# process NUMBER operation
+def number_action(client_sock):
+	return None
+
+
+# process STOP operation
+def stop_action(client_sock):
+	return None
+
+
+# process GUESS operation
+
+def guess_action(client_sock):
 	return None
 
 

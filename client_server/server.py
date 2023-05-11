@@ -210,8 +210,14 @@ def clean_client(client_sock):
 # process the report file with the QUIT result
 # eliminate client from dictionary using the function clean_client
 # return response message with or without error message
-def quit_client(client_sock, request):
-	return None
+def quit_client(client_sock):
+	client_id = find_client_id(client_sock)
+	if client_id is None:
+		return { "op": "QUIT", "status": False, "error": "Client is not registered."}
+	else:
+		# update_file - not implemented
+		clean_client(client_sock)
+		return { "op": "QUIT", "status": True}
 
 
 #

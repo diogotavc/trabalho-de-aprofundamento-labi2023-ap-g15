@@ -244,7 +244,7 @@ def number_client(client_sock, request):
 
     # Se não estiver registado, dá erro:
     if client_id not in users:
-        return {"op": "NUMBER", "status": False, "error": "Cliente is not yet registered."}
+        return {"op": "NUMBER", "status": False, "error": "Client is not yet registered."}
 
     # Se estiver registado:
     else:

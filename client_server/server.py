@@ -220,7 +220,12 @@ def create_file():
 #
 # update report csv file with the simulation of the client
 def update_file(client_id, size, guess):
-    return None
+    size = size if size else "None"
+    guess = guess if guess else []
+
+    with open ("result.csv", "a") as f:
+        csv_writer = csv.writer(f, delimiter=',')
+        csv_writer.writerow([client_id, size, guess])
 
 
 #

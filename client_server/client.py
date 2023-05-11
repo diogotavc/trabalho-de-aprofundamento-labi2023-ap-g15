@@ -138,7 +138,22 @@ def guess_action(client_sock, choice):
 # Suport for executing the client pretended behaviour
 #
 def run_client(client_sock, client_id):
-	return None
+	start_action(client_sock, client_id)
+
+	while True:
+		user_input = input("Input (q)uit, (s)top, (g)uess, or a number: ").lower()
+
+		if user_input.isnumeric():
+			number_action(client_sock, int(user_input))
+		elif user_input == "stop" or user_input == "s":
+			stop_action()
+		elif user_input == "guess" or user_input == "g":
+			choice = None	# Not yet implemented
+			guess_action(client_sock, choice)
+		elif user_input == "quit" or user_input == "q" or user_input == "":
+			quit_action(client_sock)
+		else:
+			print(log_levels.WARN, "Invalid input.")
 
 
 def main():

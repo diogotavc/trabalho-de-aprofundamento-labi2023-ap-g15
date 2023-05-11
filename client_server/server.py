@@ -248,12 +248,8 @@ def number_client(client_sock, request):
 
     # Se estiver registado:
     else:
-        try:
-            users[client_id]["numbers"].append(request["number"])
-            return {"op": "NUMBER", "status": True}
-
-        except:
-            return {"op": "NUMBER", "status": False, "error": "Número inválido"}
+        users[client_id]["numbers"].append(request["number"])
+        return {"op": "NUMBER", "status": True}
 
 
 #

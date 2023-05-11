@@ -78,7 +78,7 @@ def decrypt_intvalue(cipherkey, data):
 # verify if response from server is valid or is an error message and act accordingly - já está implementada
 def validate_response(client_sock, response):
 	if not response["status"]:
-		print(response["error"])
+		print(log_levels.WARN, response["error"])
 		client_sock.close()
 		sys.exit(3)
 

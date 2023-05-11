@@ -12,26 +12,28 @@ from Cryptodome.Hash import SHA256
 
 # Function to encript values for sending in json format
 # return int data encrypted in a 16 bytes binary string coded in base64
-def encrypt_intvalue (cipherkey, data):
+
+
+def encrypt_intvalue(cipherkey, data):
 	return None
 
 
 # Function to decript values received in json format
 # return int data decrypted from a 16 bytes binary strings coded in base64
-def decrypt_intvalue (cipherkey, data):
+def decrypt_intvalue(cipherkey, data):
 	return None
 
 
 # verify if response from server is valid or is an error message and act accordingly - já está implementada
-def validate_response (client_sock, response):
+def validate_response(client_sock, response):
 	if not response["status"]:
-		print (response["error"])
-		client_sock.close ()
-		sys.exit (3)
+		print(response["error"])
+		client_sock.close()
+		sys.exit(3)
 
 
 # process QUIT operation
-def quit_action (client_sock, attempts):
+def quit_action(client_sock, attempts):
 	return None
 
 
@@ -52,9 +54,9 @@ def quit_action (client_sock, attempts):
 #
 # Suport for executing the client pretended behaviour
 #
-def run_client (client_sock, client_id):
+def run_client(client_sock, client_id):
 	return None
-	
+
 
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
@@ -66,14 +68,15 @@ def main():
 	# obtain the hostname that can be the localhost or another host
 	# hostname = ?
 
-	client_socket = socket.socket (socket.AF_INET, socket.SOCK_STREAM)
+	client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client_socket.bind(("0.0.0.0", 0))
-	client_socket.connect ((hostname, port))
+	client_socket.connect((hostname, port))
 
-	run_client (client_socket, sys.argv[1])
+	run_client(client_socket, sys.argv[1])
 
-	client_socket.close ()
-	sys.exit (0)
+	client_socket.close()
+	sys.exit(0)
+
 
 if __name__ == "__main__":
-    main()
+	main()

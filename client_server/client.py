@@ -167,9 +167,15 @@ def main():
 	else:
 		hostname = "127.0.0.1"  # aka. localhost
 
-	client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	client_socket.bind(("0.0.0.0", 0))
-	client_socket.connect((hostname, port))
+	try:
+		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		client_socket.bind(("0.0.0.0", 0))
+		client_socket.connect((hostname, port))
+	except:
+		print(log_levels.ERROR, f"Failed to connect to {hostname} at port {port}.")
+		sys.exit(1)
+
+	print(log_levels.INFO, f"Successfully connected to {hostname} at port {port}.")
 
 	run_client(client_socket, client_id)
 

@@ -101,6 +101,7 @@ def quit_action(client_sock):
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
 	# Once done, tell the system to exit
+	print(log_levels.INFO, "Exiting..")
 	client_sock.close()
 	sys.exit(0)
 
@@ -231,5 +232,4 @@ if __name__ == "__main__":
 		main()
 	except KeyboardInterrupt:
 		print("\n" + log_levels.INFO, "Exiting..")
-		print(log_levels.INFO, "Client terminated by user.")
 		sys.exit(0)

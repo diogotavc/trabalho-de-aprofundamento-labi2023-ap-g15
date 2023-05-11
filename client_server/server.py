@@ -185,9 +185,11 @@ def new_client(client_sock, request):
 	client_id = request["client_id"]
 
 	if find_client_id(client_sock) is not None or client_id in users:
+		print(log_levels.WARN, f"Another user with the client_id {client_id} tried to connect, but failed.")
 		return { "op": "START", "status": False, "error": "User is already registered."}
 	else:
 		users[client_id] = { "sock": client_sock, "cipher": None, "numbers": [] }
+		print(log_levels.INFO, f"User {client_id} has successfully connected.")
 		return { "op": "START", "status": True }
 
 
@@ -198,7 +200,7 @@ def new_client(client_sock, request):
 def clean_client(client_sock):
 	client_id = find_client_id(client_sock)
 	if client_id != None:
-		print(log_levels.INFO, f"Client {client_id} was successfully removed.\n")
+		print(log_levels.INFO, f"Client {client_id} was successfully removed.")
 		del users[client_id]
 
 
@@ -282,6 +284,7 @@ def guess_client(client_sock, request):
 
 
 def main():
+	print(log_levels.INFO, f"Starting..")
 	# validate the number of arguments and eventually print error message and exit with error
 	# verify type of of arguments and eventually print error message and exit with error
 	if len(sys.argv) < 2:
@@ -296,6 +299,8 @@ def main():
 	else:
 		print(log_levels.ERROR, "The provided port argument is not valid.\n")
 		usage()
+
+	print(log_levels.INFO, f"Successfully started, and listening on port {port}.")
 
 	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_socket.bind(("127.0.0.1", port))
@@ -338,5 +343,4 @@ if __name__ == "__main__":
 		main()
 	except KeyboardInterrupt:
 		print("\n" + log_levels.INFO, "Exiting..")
-		print(log_levels.INFO, "Client terminated by user.")
 		sys.exit(0)

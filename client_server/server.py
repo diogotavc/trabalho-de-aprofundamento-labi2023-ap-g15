@@ -37,6 +37,22 @@ class log_levels:
     TRACE = text.GREEN + "[TRACE]" + text.END
 
 
+# Usage prompt
+
+
+def usage():
+    print(text.BOLD + f"Usage: python {sys.argv[0]} <client_id> <port> [<ipv4_address>]" + text.END)
+    print("")
+    print("Arguments:")
+    print("  <client_id>      The ID of the client.")
+    print("  <port>           The port number to use for the connection.")
+    print("")
+    print("Optional arguments:")
+    print("  <ipv4_address>   The IPv4 address of the client.")
+    print("                   If not specified, the client will connect to localhost.")
+    sys.exit(2)
+
+
 # Dicionário com a informação relativa aos clientes
 users = {}
 

@@ -60,6 +60,9 @@ users = {}
 
 
 def find_client_id(client_sock):
+	for client_id in users:
+		if users[client_id]["sock"] == client_sock:
+			return client_id
 	return None
 
 

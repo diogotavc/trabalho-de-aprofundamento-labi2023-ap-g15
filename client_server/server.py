@@ -278,6 +278,11 @@ def number_client(client_sock, request):
 def stop_client(client_sock):
 	client_id = find_client_id(client_sock)
 	numbers = users[client_id]['numbers']
+	
+	if len(numbers) == 0:
+		print(log_levels.WARN, f"The client {client_id} requested to stop, but failed.")
+		return { "op": "STOP", "status": False, "error": "This client hasn't sent any numbers yet."}
+
 	users[client_id]['generated_result'] = generate_result(numbers)
 	result = users[client_id]['generated_result']
 	if client_id is None:

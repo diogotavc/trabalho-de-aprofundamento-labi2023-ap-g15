@@ -170,7 +170,8 @@ def run_client(client_sock, client_id):
 	start_action(client_sock, client_id)
 
 	while True:
-		user_input = input("Input (q)uit, (s)top, (g)uess, or a number: ").lower()
+		print("What do you want to do? Valid options:\n(Q)uit, (S)top, (G)uess, or a number.")
+		user_input = input("Input: ").lower()
 
 		if user_input.isnumeric():
 			number_action(client_sock, int(user_input))

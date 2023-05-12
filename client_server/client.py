@@ -186,7 +186,6 @@ def run_client(client_sock, client_id):
 
 
 def main():
-	print(log_levels.INFO, f"Starting..")
 	# validate the number of arguments and eventually print error message and exit with error
 	# verify type of of arguments and eventually print error message and exit with error
 	if len(sys.argv) < 3 or len(sys.argv) > 4:

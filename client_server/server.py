@@ -285,7 +285,6 @@ def guess_client(client_sock, request):
 
 
 def main():
-	print(log_levels.INFO, f"Starting..")
 	# validate the number of arguments and eventually print error message and exit with error
 	# verify type of of arguments and eventually print error message and exit with error
 	if len(sys.argv) < 2:

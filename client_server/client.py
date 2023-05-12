@@ -51,6 +51,8 @@ def usage():
 	print("                   If not specified, the client will connect to localhost.")
 	sys.exit(2)
 
+# Lista com os números
+numbers = []
 
 # Function to check whether an ipaddress is valid or otherwise
 
@@ -74,6 +76,13 @@ def encrypt_intvalue(cipherkey, data):
 def decrypt_intvalue(cipherkey, data):
 	return None
 
+
+# Function to generate a hash from a list of numbers
+def generate_hash(numbers):
+	string = str(numbers)
+	hash_object = SHA256.new(data=string.encode('utf-8'))
+	hash_value = hash_object.hexdigest()
+	return hash_value
 
 # verify if response from server is valid or is an error message and act accordingly - já está implementada
 def validate_response(client_sock, response):
@@ -108,6 +117,8 @@ def quit_action(client_sock):
 
 # process NUMBER operation
 def number_action(client_sock, number):
+	numbers.append(number)
+	print(log_levels.DEBUG, numbers)
 	request = { "op": "NUMBER", "number": number}
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
@@ -115,7 +126,14 @@ def number_action(client_sock, number):
 
 # process STOP operation
 def stop_action(client_sock):
-	request = { "op": "STOP" }
+	print("Do you want to send a SHA256 hash to the server? Valid options:\n(Y)es or (N)o.")
+	user_input = input("Input: ").lower()
+	if user_input == "y" or user_input == "yes":
+		shasum = generate_hash(numbers)
+		print(log_levels.DEBUG, shasum)
+		request = { "op": "STOP", "shasum": shasum}
+	else:
+		request = { "op": "STOP" }
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
 	value = response["value"]

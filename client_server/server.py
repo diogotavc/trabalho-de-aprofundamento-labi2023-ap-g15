@@ -78,6 +78,16 @@ def decrypt_intvalue(client_id, data):
 	return None
 
 
+# Function to generate a hash from a list of numbers
+def generate_hash(client_id):
+	numbers = users[client_id]['numbers']
+	
+	string = str(numbers)
+	hash_object = SHA256.new(data=string.encode('utf-8'))
+	hash_value = hash_object.hexdigest()
+	return hash_value
+
+
 # Função auxiliar para gerar o resultado - já está implementada
 # return int value and list of description strings identifying the characteristic of the value
 def generate_result(list_values):
@@ -163,7 +173,7 @@ def new_msg(client_sock):
 	elif op == "NUMBER":
 		response = number_client(client_sock, request)
 	elif op == "STOP":
-		response = stop_client(client_sock)
+		response = stop_client(client_sock, request)
 	elif op == "GUESS":
 		response = guess_client(client_sock, request)
 	else:
@@ -275,9 +285,10 @@ def number_client(client_sock, request):
 # randomly generate a value to return using the function generate_result
 # process the report file with the result
 # return response message with result or error message
-def stop_client(client_sock):
+def stop_client(client_sock, request):
 	client_id = find_client_id(client_sock)
 	numbers = users[client_id]['numbers']
+
 	
 	if len(numbers) == 0:
 		print(log_levels.WARN, f"The client {client_id} requested to stop, but failed.")
@@ -285,13 +296,25 @@ def stop_client(client_sock):
 
 	users[client_id]['generated_result'] = generate_result(numbers)
 	result = users[client_id]['generated_result']
+
 	if client_id is None:
 		return { "op": "STOP", "status": False, "error": "Client is not registered."}
+	
+	if "shasum" in request:
+		shasum = generate_hash(client_id)
+		print(log_levels.DEBUG, shasum)
+		if request["shasum"] != shasum:
+			print(log_levels.WARN, "The hashes don't match.")
+			return { "op": "STOP", "status": False, "error": "The hashes don't match."}
+		else:
+			print(log_levels.DEBUG, "The hashes match correctly.")
 	else:
-		print(log_levels.INFO, "Updating the report file.")
-		update_file(client_id, len(numbers), result[1])
-		print(log_levels.DEBUG, users[client_id])
-		return { "op": "STOP", "status": True, "value": result[0] }
+		print(log_levels.DEBUG, f"The user {client_id} decided not to send a hash, skipping.")
+		
+	print(log_levels.INFO, "Updating the report file.")
+	update_file(client_id, len(numbers), result[1])
+	print(log_levels.DEBUG, users[client_id])
+	return { "op": "STOP", "status": True, "value": result[0] }
 
 
 

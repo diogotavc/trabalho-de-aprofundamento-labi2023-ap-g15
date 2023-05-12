@@ -190,6 +190,7 @@ def new_client(client_sock, request):
 	else:
 		users[client_id] = { "sock": client_sock, "cipher": None, "numbers": [] }
 		print(log_levels.INFO, f"User {client_id} has successfully connected.")
+		print(log_levels.DEBUG, users[client_id])
 		return { "op": "START", "status": True }
 
 

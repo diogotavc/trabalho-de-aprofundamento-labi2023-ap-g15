@@ -295,7 +295,19 @@ def stop_client(client_sock):
 # eliminate client from dictionary
 # return response message with result or error message
 def guess_client(client_sock, request):
-	return None
+	client_id = find_client_id(client_sock)
+	numbers = users[client_id]['numbers']
+	user_guess = request['choice']
+	guess = users[client_id]['generated_result'][1]
+	if client_id is None:
+		return { "op": "GUESS", "status": False, "error": "Client is not registered."}
+	else:
+		print(log_levels.INFO, "Updating the report file.")
+		update_file(client_id, len(numbers), guess)
+		if user_guess in guess:
+			return { "op": "GUESS", "status": True, "result": True }
+		else:
+			return { "op": "GUESS", "status": True, "result": False }
 
 
 def main():

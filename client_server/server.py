@@ -260,7 +260,7 @@ def quit_client(client_sock):
 		return { "op": "QUIT", "status": False, "error": "Client is not registered."}
 	else:
 		print(log_levels.INFO, "Updating the report file.")
-		update_file(client_id, len(numbers), None)
+		update_file(client_id, len(numbers), [])
 		clean_client(client_sock)
 		return { "op": "QUIT", "status": True}
 

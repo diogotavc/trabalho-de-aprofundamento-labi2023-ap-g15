@@ -65,8 +65,6 @@ def valid_address(address):
 
 # Function to encript values for sending in json format
 # return int data encrypted in a 16 bytes binary string coded in base64
-
-
 def encrypt_intvalue(cipherkey, data):
 	# Create a cipher object using the AES algorithm and ECB mode
 	cipher = AES.new(cipherkey, AES.MODE_ECB)
@@ -126,8 +124,12 @@ def validate_response(client_sock, response):
 
 
 # process START operation
-def start_action(client_sock, client_id):
-	request = { "op": "START", "client_id": client_id}
+def start_action(client_sock, client_id, cipher):
+	if cipher is None:
+		request = { "op": "START", "client_id": client_id }
+	else:
+		cipher = str(base64.b64encode(cipher), "utf-8")
+		request = { "op": "START", "client_id": client_id, "cipher": cipher }
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
 
@@ -143,16 +145,18 @@ def quit_action(client_sock):
 
 
 # process NUMBER operation
-def number_action(client_sock, number):
+def number_action(client_sock, number, cipher):
 	numbers.append(number)
 	print(log_levels.DEBUG, numbers)
+	if cipher is not None:
+		number = encrypt_intvalue(cipher, number)
 	request = { "op": "NUMBER", "number": number}
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
 
 
 # process STOP operation
-def stop_action(client_sock):
+def stop_action(client_sock, cipher):
 	print("Do you want to send a SHA256 hash to the server? Valid options:\n(Y)es or (N)o.")
 	user_input = input("Input: ").lower()
 	if user_input == "y" or user_input == "yes":
@@ -164,6 +168,8 @@ def stop_action(client_sock):
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
 	value = response["value"]
+	if cipher is not None:
+		value = decrypt_intvalue(cipher, value)
 	print(f"The chosen number is: {value}")
 	guess_action(client_sock)
 
@@ -203,8 +209,8 @@ def guess_action(client_sock):
 #
 # Suport for executing the client pretended behaviour
 #
-def run_client(client_sock, client_id):
-	start_action(client_sock, client_id)
+def run_client(client_sock, client_id, cipher=None):
+	start_action(client_sock, client_id, cipher)
 	print(log_levels.WARN, "Due to a few issues during development, encription could not be implemented in time.")
 
 	while True:
@@ -212,11 +218,11 @@ def run_client(client_sock, client_id):
 		user_input = input("Input: ").lower()
 
 		if user_input.isnumeric():
-			number_action(client_sock, int(user_input))
+			number_action(client_sock, int(user_input),cipher)
 		elif user_input == "stop" or user_input == "s":
-			stop_action(client_sock)
+			stop_action(client_sock, cipher)
 		elif user_input == "guess" or user_input == "g":
-			stop_action(client_sock)
+			stop_action(client_sock, cipher)
 		elif user_input == "quit" or user_input == "q" or user_input == "":
 			quit_action(client_sock)
 		else:
@@ -261,8 +267,16 @@ def main():
 		sys.exit(1)
 
 	print(log_levels.INFO, f"Successfully connected to {hostname} at port {port}.")
-
-	run_client(client_socket, client_id)
+	
+	# Ask whether the connection should be secure or not
+	print("Do you want to enable encription? Valid options:\n(Y)es or(N)o.")
+	
+	enable_cipher = input("Input: ").lower()
+	if enable_cipher == "y" or enable_cipher == "yes":
+		cipher = os.urandom(16)
+		run_client(client_socket, client_id, cipher)
+	else:
+		run_client(client_socket, client_id)
 
 	client_socket.close()
 	sys.exit(0)

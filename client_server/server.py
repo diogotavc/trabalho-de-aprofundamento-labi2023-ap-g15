@@ -66,16 +66,43 @@ def find_client_id(client_sock):
 	return None
 
 
-# Função para encriptar valores a enviar em formato json com codificação base64
-# return int data encrypted in a 16 bytes binary string and coded base64
-def encrypt_intvalue(client_id, data):
-	return None
+# Function to encript values for sending in json format
+# return int data encrypted in a 16 bytes binary string coded in base64
+def encrypt_intvalue(cipherkey, data):
+	# Create a cipher object using the AES algorithm and ECB mode
+	cipher = AES.new(cipherkey, AES.MODE_ECB)
+
+	# Convert the data to a string with 16 digits and encode it as UTF-8
+	data_string = "%16d" % (data)
+	data_bytes = bytes(data_string, "utf-8")
+
+	# Encrypt the data using the cipher object
+	encrypted_data_bytes = cipher.encrypt(data_bytes)
+
+	# Encode the encrypted data as base64 and convert it to a string
+	encrypted_data_str = str(base64.b64encode(encrypted_data_bytes), "utf-8")
+
+	# Return the encrypted data as a string
+	return encrypted_data_str
 
 
-# Função para desencriptar valores recebidos em formato json com codificação base64
-# return int data decrypted from a 16 bytes binary string and coded base64
-def decrypt_intvalue(client_id, data):
-	return None
+# Function to decript values received in json format
+# return int data decrypted from a 16 bytes binary strings coded in base64
+def decrypt_intvalue(cipherkey, data):
+	# Create a cipher object using the AES algorithm and ECB mode
+	cipher = AES.new(cipherkey, AES.MODE_ECB)
+
+	# Decode the base64-encoded data
+	data_bytes = base64.b64decode(data)
+
+	# Decrypt the data using the cipher object
+	decrypted_data_bytes = cipher.decrypt(data_bytes)
+
+	# Convert the decrypted data to an integer
+	decrypted_data_int = int(decrypted_data_bytes.decode("utf-8"))
+
+	# Return the decrypted data as an integer
+	return decrypted_data_int
 
 
 # Function to generate a hash from a list of numbers
@@ -192,11 +219,16 @@ def new_msg(client_sock):
 def new_client(client_sock, request):
 	client_id = request["client_id"]
 
+	if "cipher" in request:
+		cipher = base64.b64decode(request["cipher"])
+	else:
+		cipher = None
+
 	if find_client_id(client_sock) is not None or client_id in users:
 		print(log_levels.WARN, f"Another user with the client_id {client_id} tried to connect, but failed.")
 		return { "op": "START", "status": False, "error": "User is already registered."}
 	else:
-		users[client_id] = { "sock": client_sock, "cipher": None, "numbers": [] }
+		users[client_id] = { "sock": client_sock, "cipher": cipher, "numbers": [] }
 		print(log_levels.INFO, f"User {client_id} has successfully connected.")
 		print(log_levels.DEBUG, users[client_id])
 		return { "op": "START", "status": True }
@@ -262,13 +294,17 @@ def update_file(client_id, size=0, guess=[]):
 # return response message with or without error message
 def number_client(client_sock, request):
 	client_id = find_client_id(client_sock)
+	cipher = users[client_id]["cipher"]
 	numbers = users[client_id]['numbers']
 	number = request["number"]
 	if client_id is None:
 		return { "op": "NUMBER", "status": False, "error": "Client is not registered."}
-	else:
-		numbers.append(number)
-		return { "op": "NUMBER", "status": True }
+	
+	if cipher is not None:
+		number = decrypt_intvalue(cipher, number)
+
+	numbers.append(number)
+	return { "op": "NUMBER", "status": True }
 
 
 #
@@ -282,7 +318,7 @@ def number_client(client_sock, request):
 def stop_client(client_sock, request):
 	client_id = find_client_id(client_sock)
 	numbers = users[client_id]['numbers']
-
+	cipher = users[client_id]["cipher"]
 	
 	if len(numbers) == 0:
 		print(log_levels.WARN, f"The client {client_id} requested to stop, but failed.")
@@ -290,6 +326,7 @@ def stop_client(client_sock, request):
 
 	users[client_id]['generated_result'] = generate_result(numbers)
 	result = users[client_id]['generated_result']
+	value = result[0]
 
 	if client_id is None:
 		return { "op": "STOP", "status": False, "error": "Client is not registered."}
@@ -308,7 +345,9 @@ def stop_client(client_sock, request):
 	print(log_levels.INFO, "Updating the report file.")
 	update_file(client_id, len(numbers), result[1])
 	print(log_levels.DEBUG, users[client_id])
-	return { "op": "STOP", "status": True, "value": result[0] }
+	if cipher is not None:
+		value = encrypt_intvalue(cipher, value)
+	return { "op": "STOP", "status": True, "value": value }
 
 
 
@@ -321,7 +360,6 @@ def stop_client(client_sock, request):
 # return response message with result or error message
 def guess_client(client_sock, request):
 	client_id = find_client_id(client_sock)
-	numbers = users[client_id]['numbers']
 	user_guess = request['choice']
 	guess = users[client_id]['generated_result'][1]
 	if client_id is None:

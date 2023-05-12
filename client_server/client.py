@@ -211,29 +211,28 @@ def guess_action(client_sock):
 # Suport for executing the client pretended behaviour
 #
 def run_client(client_sock, client_id, cipher=None):
-	last_number_action_time = 0
+	last_action_time = 0
 	start_action(client_sock, client_id, cipher)
 
 	while True:
 		print("What do you want to do? Valid options:\n(Q)uit, (S)top, (G)uess, or a number.")
 		user_input = input("Input: ").lower()
-
-		if user_input.isnumeric():
-			current_time = time.time()
-			if current_time - last_number_action_time < 0.2:
-				print(log_levels.WARN, "Numbers being input too fast.")
-				last_number_action_time = current_time
-			else:
-				last_number_action_time = current_time
-				number_action(client_sock, int(user_input),cipher)
-		elif user_input == "stop" or user_input == "s":
-			stop_action(client_sock, cipher)
-		elif user_input == "guess" or user_input == "g":
-			stop_action(client_sock, cipher)
-		elif user_input == "quit" or user_input == "q" or user_input == "":
-			quit_action(client_sock)
+		current_time = time.time()
+		if current_time - last_action_time < 0.2:
+			print(log_levels.WARN, "Too many fast inputs. Server may not be able to receive all requests.")
+			last_action_time = current_time
 		else:
-			print(log_levels.WARN, "Unknown operation.")
+			last_action_time = current_time
+			if user_input.isnumeric():
+				number_action(client_sock, int(user_input),cipher)
+			elif user_input == "stop" or user_input == "s":
+				stop_action(client_sock, cipher)
+			elif user_input == "guess" or user_input == "g":
+				stop_action(client_sock, cipher)
+			elif user_input == "quit" or user_input == "q" or user_input == "":
+				quit_action(client_sock)
+			else:
+				print(log_levels.WARN, "Unknown operation.")
 
 
 def main():

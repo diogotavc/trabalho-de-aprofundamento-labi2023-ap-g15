@@ -279,11 +279,14 @@ def stop_client(client_sock):
 	client_id = find_client_id(client_sock)
 	numbers = users[client_id]['numbers']
 	users[client_id]['generated_result'] = generate_result(numbers)
-	value = users[client_id]['generated_result'][0]
+	result = users[client_id]['generated_result']
 	if client_id is None:
 		return { "op": "STOP", "status": False, "error": "Client is not registered."}
 	else:
-		return { "op": "STOP", "status": True, "value": value }
+		print(log_levels.INFO, "Updating the report file.")
+		update_file(client_id, len(numbers), result[1])
+		print(log_levels.DEBUG, users[client_id])
+		return { "op": "STOP", "status": True, "value": result[0] }
 
 
 
@@ -302,8 +305,6 @@ def guess_client(client_sock, request):
 	if client_id is None:
 		return { "op": "GUESS", "status": False, "error": "Client is not registered."}
 	else:
-		print(log_levels.INFO, "Updating the report file.")
-		update_file(client_id, len(numbers), guess)
 		if user_guess in guess:
 			return { "op": "GUESS", "status": True, "result": True }
 		else:
@@ -338,6 +339,7 @@ def main():
 	server_socket.listen()
 
 	clients = []
+	print(log_levels.INFO, "Creating the report file.")
 	create_file()
 
 	while True:

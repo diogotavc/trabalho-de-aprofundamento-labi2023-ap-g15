@@ -213,7 +213,6 @@ def guess_action(client_sock):
 def run_client(client_sock, client_id, cipher=None):
 	last_number_action_time = 0
 	start_action(client_sock, client_id, cipher)
-	print(log_levels.WARN, "Due to a few issues during development, encription could not be implemented in time.")
 
 	while True:
 		print("What do you want to do? Valid options:\n(Q)uit, (S)top, (G)uess, or a number.")

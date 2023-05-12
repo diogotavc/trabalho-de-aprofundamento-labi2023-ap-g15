@@ -300,10 +300,15 @@ def main():
 		print(log_levels.ERROR, "The provided port argument is not valid.\n")
 		usage()
 
-	print(log_levels.INFO, f"Successfully started, and listening on port {port}.")
-
 	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	server_socket.bind(("127.0.0.1", port))
+	try:
+		server_socket.bind(("127.0.0.1", port))
+	except:
+		print(log_levels.ERROR, "Address is already in use.")
+		print(log_levels.INFO, "Exiting..")
+		sys.exit(3)
+
+	print(log_levels.INFO, f"Successfully started, and listening on port {port}.")
 	server_socket.listen()
 
 	clients = []

@@ -248,11 +248,7 @@ def create_file():
 # Suporte da actualização de um ficheiro csv com a informação do cliente
 #
 # update report csv file with the simulation of the client
-def update_file(client_id, size, guess):
-	# Variables used for debugging before everything is fully implemented
-	size = size if size else 0
-	guess = guess if guess else []
-
+def update_file(client_id, size=0, guess=[]):
 	with open("result.csv", "a") as csvfile:
 		write = csv.writer(csvfile, delimiter=',')
 		write.writerow([client_id, size, guess])

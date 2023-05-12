@@ -159,14 +159,6 @@ def guess_action(client_sock):
 	sys.exit(0)
 
 
-# process UNKNOWN operation
-def unknown_action(client_sock):
-	request = { "op": "UNKNOWN"}
-	response = sendrecv_dict(client_sock, request)
-	validate_response(client_sock, response)
-
-
-
 # Outcomming message structure:
 # { op = "START", client_id, [cipher] }
 # { op = "QUIT" }
@@ -200,7 +192,7 @@ def run_client(client_sock, client_id):
 		elif user_input == "quit" or user_input == "q" or user_input == "":
 			quit_action(client_sock)
 		else:
-			unknown_action(client_sock)
+			print(log_levels.WARN, "Unknown operation.")
 
 
 def main():

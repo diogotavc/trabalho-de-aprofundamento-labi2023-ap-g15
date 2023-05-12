@@ -6,6 +6,6 @@ Nome - Nmec - Contribuição
 
 To-do
 
-- Implementar encriptação
+- ~~Implementar encriptação~~
 
 - Implementar testes

@@ -177,6 +177,7 @@ def guess_action(client_sock):
 # Suport for executing the client pretended behaviour
 #
 def run_client(client_sock, client_id):
+	print(log_levels.WARN, "Due to a few issues during development, encription could not be implemented in time.")
 	start_action(client_sock, client_id)
 
 	while True:

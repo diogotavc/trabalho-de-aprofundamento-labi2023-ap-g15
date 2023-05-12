@@ -257,7 +257,14 @@ def update_file(client_id, size, guess):
 # verify the appropriate conditions for executing this operation
 # return response message with or without error message
 def number_client(client_sock, request):
-	return None
+	client_id = find_client_id(client_sock)
+	numbers = users[client_id]['numbers']
+	number = request["number"]
+	if client_id is None:
+		return { "op": "NUMBER", "status": False, "error": "Client is not registered."}
+	else:
+		numbers.append(number)
+		return { "op": "NUMBER", "status": True }
 
 
 #

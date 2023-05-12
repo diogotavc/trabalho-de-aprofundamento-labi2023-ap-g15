@@ -9,3 +9,5 @@ To-do
 - ~~Implementar encriptação~~
 
 - Implementar testes
+
+- Comentar (e limpar/melhorar) o código apropriadamente

@@ -68,13 +68,40 @@ def valid_address(address):
 
 
 def encrypt_intvalue(cipherkey, data):
-	return None
+	# Create a cipher object using the AES algorithm and ECB mode
+	cipher = AES.new(cipherkey, AES.MODE_ECB)
+
+	# Convert the data to a string with 16 digits and encode it as UTF-8
+	data_string = "%16d" % (data)
+	data_bytes = bytes(data_string, "utf-8")
+
+	# Encrypt the data using the cipher object
+	encrypted_data_bytes = cipher.encrypt(data_bytes)
+
+	# Encode the encrypted data as base64 and convert it to a string
+	encrypted_data_str = str(base64.b64encode(encrypted_data_bytes), "utf-8")
+
+	# Return the encrypted data as a string
+	return encrypted_data_str
 
 
 # Function to decript values received in json format
 # return int data decrypted from a 16 bytes binary strings coded in base64
 def decrypt_intvalue(cipherkey, data):
-	return None
+	# Create a cipher object using the AES algorithm and ECB mode
+	cipher = AES.new(cipherkey, AES.MODE_ECB)
+
+	# Decode the base64-encoded data
+	data_bytes = base64.b64decode(data)
+
+	# Decrypt the data using the cipher object
+	decrypted_data_bytes = cipher.decrypt(data_bytes)
+
+	# Convert the decrypted data to an integer
+	decrypted_data_int = int(decrypted_data_bytes.decode("utf-8"))
+
+	# Return the decrypted data as an integer
+	return decrypted_data_int
 
 
 # Function to generate a hash from a list of numbers

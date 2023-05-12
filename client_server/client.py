@@ -108,7 +108,7 @@ def quit_action(client_sock):
 
 # process NUMBER operation
 def number_action(client_sock, number):
-	request = { "op": "START", "number": number}
+	request = { "op": "NUMBER", "number": number}
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
 

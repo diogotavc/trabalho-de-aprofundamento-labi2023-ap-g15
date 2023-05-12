@@ -6,6 +6,7 @@ import socket
 import json
 import base64
 import ipaddress
+import time
 from common_comm import send_dict, recv_dict, sendrecv_dict
 
 from Cryptodome.Cipher import AES
@@ -210,6 +211,7 @@ def guess_action(client_sock):
 # Suport for executing the client pretended behaviour
 #
 def run_client(client_sock, client_id, cipher=None):
+	last_number_action_time = 0
 	start_action(client_sock, client_id, cipher)
 	print(log_levels.WARN, "Due to a few issues during development, encription could not be implemented in time.")
 
@@ -218,7 +220,13 @@ def run_client(client_sock, client_id, cipher=None):
 		user_input = input("Input: ").lower()
 
 		if user_input.isnumeric():
-			number_action(client_sock, int(user_input),cipher)
+			current_time = time.time()
+			if current_time - last_number_action_time < 0.2:
+				print(log_levels.WARN, "Numbers being input too fast.")
+				last_number_action_time = current_time
+			else:
+				last_number_action_time = current_time
+				number_action(client_sock, int(user_input),cipher)
 		elif user_input == "stop" or user_input == "s":
 			stop_action(client_sock, cipher)
 		elif user_input == "guess" or user_input == "g":

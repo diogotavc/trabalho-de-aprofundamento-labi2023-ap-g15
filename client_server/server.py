@@ -163,7 +163,7 @@ def new_msg(client_sock):
 	elif op == "NUMBER":
 		response = number_client(client_sock, request)
 	elif op == "STOP":
-		response = stop_client(client_sock, request)
+		response = stop_client(client_sock)
 	elif op == "GUESS":
 		response = guess_client(client_sock, request)
 	else:
@@ -275,11 +275,16 @@ def number_client(client_sock, request):
 # randomly generate a value to return using the function generate_result
 # process the report file with the result
 # return response message with result or error message
-def stop_client(client_sock, request):
-	# ...
-	# value, solution = generate_result (users[client_id]["numbers"])
-	# ...
-	return None
+def stop_client(client_sock):
+	client_id = find_client_id(client_sock)
+	numbers = users[client_id]['numbers']
+	users[client_id]['generated_result'] = generate_result(numbers)
+	value = users[client_id]['generated_result'][0]
+	if client_id is None:
+		return { "op": "STOP", "status": False, "error": "Client is not registered."}
+	else:
+		return { "op": "STOP", "status": True, "value": value }
+
 
 
 #

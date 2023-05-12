@@ -186,6 +186,7 @@ def run_client(client_sock, client_id):
 
 
 def main():
+	print(log_levels.INFO, f"Starting..")
 	# validate the number of arguments and eventually print error message and exit with error
 	# verify type of of arguments and eventually print error message and exit with error
 	if len(sys.argv) < 3 or len(sys.argv) > 4:
@@ -211,12 +212,15 @@ def main():
 	else:
 		hostname = "127.0.0.1"  # aka. localhost
 
+	print(log_levels.INFO, f"Attempting to connect to {hostname} at port {port}.")
 	try:
 		client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		client_socket.bind(("0.0.0.0", 0))
+		client_socket.settimeout(5)
 		client_socket.connect((hostname, port))
 	except:
 		print(log_levels.ERROR, f"Failed to connect to {hostname} at port {port}.")
+		print(log_levels.INFO, "Exiting..")
 		sys.exit(1)
 
 	print(log_levels.INFO, f"Successfully connected to {hostname} at port {port}.")

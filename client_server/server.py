@@ -215,10 +215,12 @@ def clean_client(client_sock):
 # return response message with or without error message
 def quit_client(client_sock):
 	client_id = find_client_id(client_sock)
+	numbers = users[client_id]['numbers']
 	if client_id is None:
 		return { "op": "QUIT", "status": False, "error": "Client is not registered."}
 	else:
-		# update_file - not implemented
+		print(log_levels.INFO, "Updating the report file.")
+		update_file(client_id, len(numbers), None)
 		clean_client(client_sock)
 		return { "op": "QUIT", "status": True}
 

@@ -175,9 +175,9 @@ def run_client(client_sock, client_id):
 		if user_input.isnumeric():
 			number_action(client_sock, int(user_input))
 		elif user_input == "stop" or user_input == "s":
-			stop_action()
+			stop_action(client_sock)
 		elif user_input == "guess" or user_input == "g":
-			stop_action()
+			stop_action(client_sock)
 		elif user_input == "quit" or user_input == "q" or user_input == "":
 			quit_action(client_sock)
 		else:

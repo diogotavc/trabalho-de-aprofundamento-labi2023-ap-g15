@@ -283,6 +283,7 @@ def create_file():
 def update_file(client_id, size=0, guess=[]):
 	with open("result.csv", "a") as csvfile:
 		write = csv.writer(csvfile, delimiter=',')
+		guess = str(guess).replace(",", ";")	# This is to prevent the writer from adding quotes during writing
 		write.writerow([client_id, size, guess])
 
 

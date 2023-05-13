@@ -213,6 +213,8 @@ def guess_action(client_sock):
 def run_client(client_sock, client_id, cipher=None):
 	last_action_time = 0
 	start_action(client_sock, client_id, cipher)
+	print(log_levels.INFO, "Registering client.")
+	time.sleep(0.2)	# This is to prevent a hash mismatch due to fast inputs
 
 	while True:
 		print("What do you want to do? Valid options:\n(Q)uit, (S)top, (G)uess, or a number.")

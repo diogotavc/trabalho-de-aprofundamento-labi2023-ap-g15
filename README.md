@@ -6,6 +6,8 @@ Nome - Nmec - Contribuição
 
 To-do
 
+- ~~Opção para ativar e desativar logs~~ Não vai acontecer lol
+
 - ~~Implementar encriptação~~
 
 - Implementar testes

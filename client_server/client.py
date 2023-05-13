@@ -178,8 +178,21 @@ def stop_action(client_sock, cipher):
 
 # process GUESS operation
 def guess_action(client_sock):
-	print("Valid options: min, max, first, last, median")
-	choice = input("Guess: ").lower()
+	while True:
+		print("Valid options: Min, Max, First, Last, Median, or (Q)uit.")
+		choice = input("Guess: ").lower()
+		if choice in ['min', 'max', 'first', 'last', 'median']:
+			break
+		elif choice in ['q', 'quit']:
+			print("Are you sure you want to quit? Valid options:\n(Y)es to confirm.")
+			user_input = input("Input: ").lower()
+			if user_input == "yes" or user_input == "y":
+				choice = ""
+				break
+		else:
+			print(log_levels.WARN, "Invalid input.")
+			continue
+
 	request = { "op": "GUESS", "choice": choice}
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)

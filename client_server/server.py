@@ -41,15 +41,10 @@ class log_levels:
 
 
 def usage():
-	print(text.BOLD + f"Usage: python {sys.argv[0]} <client_id> <port> [<ipv4_address>]" + text.END)
+	print(text.BOLD + f"Usage: python {sys.argv[0]} <port>" + text.END)
 	print("")
 	print("Arguments:")
-	print("  <client_id>      The ID of the client.")
 	print("  <port>           The port number to use for the connection.")
-	print("")
-	print("Optional arguments:")
-	print("  <ipv4_address>   The IPv4 address of the client.")
-	print("                   If not specified, the client will connect to localhost.")
 	sys.exit(2)
 
 
@@ -378,7 +373,7 @@ def guess_client(client_sock, request):
 def main():
 	# validate the number of arguments and eventually print error message and exit with error
 	# verify type of of arguments and eventually print error message and exit with error
-	if len(sys.argv) < 2 or len(sys.argv) > 2:
+	if len(sys.argv) != 2:
 		print(log_levels.ERROR, "Wrong usage.\n")
 		usage()
 

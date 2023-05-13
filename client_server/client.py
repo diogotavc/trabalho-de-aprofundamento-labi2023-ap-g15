@@ -165,6 +165,7 @@ def stop_action(client_sock, cipher):
 		print(log_levels.DEBUG, shasum)
 		request = { "op": "STOP", "shasum": shasum}
 	else:
+		print(log_levels.WARN, "In case of a list mismatch, the user won't be notified.")
 		request = { "op": "STOP" }
 	response = sendrecv_dict(client_sock, request)
 	validate_response(client_sock, response)
@@ -284,6 +285,7 @@ def main():
 		cipher = os.urandom(16)
 		run_client(client_socket, client_id, cipher)
 	else:
+		print(log_levels.WARN, "The connection is now insecure.")
 		run_client(client_socket, client_id)
 
 	client_socket.close()

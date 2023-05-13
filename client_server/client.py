@@ -220,7 +220,7 @@ def run_client(client_sock, client_id, cipher=None):
 	while True:
 		print("What do you want to do? Valid options:\n(Q)uit, (S)top, (G)uess, or a number.")
 		user_input = input("Input: ").lower()
-		current_time = time.time()
+		current_time = time.monotonic()
 		if current_time - last_action_time < 0.2:
 			print(log_levels.WARN, "Too many fast inputs. Server may not be able to receive all requests.")
 			last_action_time = current_time

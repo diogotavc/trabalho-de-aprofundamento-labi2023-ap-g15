@@ -215,14 +215,14 @@ def run_client(client_sock, client_id, cipher=None):
 	last_action_time = 0
 	start_action(client_sock, client_id, cipher)
 	print(log_levels.INFO, "Registering client.")
-	time.sleep(0.2)	# This is to prevent a hash mismatch due to fast inputs
+	time.sleep(0.25)	# This is to prevent a hash mismatch due to fast inputs
 
 	while True:
 		print("What do you want to do? Valid options:\n(Q)uit, (S)top, (G)uess, or a number.")
 		user_input = input("Input: ").lower()
 		current_time = time.monotonic()
-		if current_time - last_action_time < 0.2:
-			print(log_levels.WARN, "Too many fast inputs. Server may not be able to process all requests in time.")
+		if current_time - last_action_time < 0.25:
+			print(log_levels.WARN, "Too many fast inputs. Server may not be able to process all requests in time.")	# This is to prevent a hash mismatch due to fast inputs
 			last_action_time = current_time
 		else:
 			last_action_time = current_time

@@ -408,9 +408,9 @@ def main():
 
 	while True:
 		try:
-			available = select.select([server_socket] + clients, [], [], 20)[0]
+			available = select.select([server_socket] + clients, [], [], 60)[0]
 			if not available and not clients:
-				print(log_levels.WARN, "No client connections were established within the last 20 seconds.")
+				print(log_levels.WARN, "No client connections were established within the last minute.")
 				print(log_levels.INFO, "Exiting...")
 				server_socket.close()
 				sys.exit(0)

@@ -272,7 +272,7 @@ def create_file():
 	with open("result.csv", "w", newline="") as csvfile:
 		columns = ["client_id", "number_of_numbers", "guess"]
 
-		fw = csv.DictWriter(csvfile, delimiter=",", fieldnames=columns)
+		fw = csv.DictWriter(csvfile, delimiter=";", fieldnames=columns)	# This is to prevent issues when writing lists with commas (2 items)
 		fw.writeheader()
 
 
@@ -282,8 +282,7 @@ def create_file():
 # update report csv file with the simulation of the client
 def update_file(client_id, size=0, guess=[]):
 	with open("result.csv", "a") as csvfile:
-		write = csv.writer(csvfile, delimiter=',')
-		guess = str(guess).replace(",", ";")	# This is to prevent the writer from adding quotes during writing
+		write = csv.writer(csvfile, delimiter=';')	# This is to prevent issues when writing lists with commas (2 items)
 		write.writerow([client_id, size, guess])
 
 

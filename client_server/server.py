@@ -304,6 +304,7 @@ def number_client(client_sock, request):
 		number = decrypt_intvalue(cipher, number)
 
 	numbers.append(number)
+	print(log_levels.INFO, client_id, numbers)
 	return { "op": "NUMBER", "status": True }
 
 
@@ -366,8 +367,10 @@ def guess_client(client_sock, request):
 		return { "op": "GUESS", "status": False, "error": "Client is not registered."}
 	else:
 		if user_guess in guess:
+			print(log_levels.INFO, f"{client_id} guessed it correctly.")
 			return { "op": "GUESS", "status": True, "result": True }
 		else:
+			print(log_levels.INFO, f"{client_id} did not guess it correctly.")
 			return { "op": "GUESS", "status": True, "result": False }
 
 

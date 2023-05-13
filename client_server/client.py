@@ -233,7 +233,10 @@ def run_client(client_sock, client_id, cipher=None):
 			elif user_input == "guess" or user_input == "g":
 				stop_action(client_sock, cipher)
 			elif user_input == "quit" or user_input == "q" or user_input == "":
-				quit_action(client_sock)
+				print("Are you sure you want to quit? Valid options:\n(Y)es or (N)o.")
+				user_input = input("Input: ").lower()
+				if user_input == "yes" or user_input == "y":
+					quit_action(client_sock)
 			else:
 				print(log_levels.WARN, "Unknown operation.")
 

@@ -222,6 +222,7 @@ def new_client(client_sock, request):
 	if "cipher" in request:
 		cipher = base64.b64decode(request["cipher"])
 	else:
+		print(log_levels.WARN, f"The connection with {client_id} is not secure.")
 		cipher = None
 
 	if find_client_id(client_sock) is not None or client_id in users:
@@ -339,9 +340,9 @@ def stop_client(client_sock, request):
 			print(log_levels.WARN, "The hashes don't match.")
 			return { "op": "STOP", "status": False, "error": "The hashes don't match."}
 		else:
-			print(log_levels.DEBUG, "The hashes match correctly.")
+			print(log_levels.INFO, "The hashes match correctly.")
 	else:
-		print(log_levels.DEBUG, f"The user {client_id} decided not to send a hash, skipping.")
+		print(log_levels.WARN, f"The user {client_id} decided not to send a hash, skipping.")
 		
 	print(log_levels.INFO, "Updating the report file.")
 	update_file(client_id, len(numbers), result[1])

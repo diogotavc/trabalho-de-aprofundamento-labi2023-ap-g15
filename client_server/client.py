@@ -158,7 +158,7 @@ def number_action(client_sock, number, cipher):
 
 # process STOP operation
 def stop_action(client_sock, cipher):
-	print("Do you want to send a SHA256 hash to the server? Valid options:\n(Y)es or (N)o.")
+	print("Do you want to send a SHA256 hash to the server? Valid options:\n(Y)es to confirm.")
 	user_input = input("Input: ").lower()
 	if user_input == "y" or user_input == "yes":
 		shasum = generate_hash(numbers)
@@ -233,7 +233,7 @@ def run_client(client_sock, client_id, cipher=None):
 			elif user_input == "guess" or user_input == "g":
 				stop_action(client_sock, cipher)
 			elif user_input == "quit" or user_input == "q" or user_input == "":
-				print("Are you sure you want to quit? Valid options:\n(Y)es or (N)o.")
+				print("Are you sure you want to quit? Valid options:\n(Y)es to confirm.")
 				user_input = input("Input: ").lower()
 				if user_input == "yes" or user_input == "y":
 					quit_action(client_sock)
@@ -281,7 +281,7 @@ def main():
 	print(log_levels.INFO, f"Successfully connected to {hostname} at port {port}.")
 	
 	# Ask whether the connection should be secure or not
-	print("Do you want to enable encription? Valid options:\n(Y)es or(N)o.")
+	print("Do you want to enable encription? Valid options:\n(Y)es to confirm.")
 	
 	enable_cipher = input("Input: ").lower()
 	if enable_cipher == "y" or enable_cipher == "yes":

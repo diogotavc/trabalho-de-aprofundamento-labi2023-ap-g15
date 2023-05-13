@@ -258,7 +258,7 @@ def main():
 	# validate the number of arguments and eventually print error message and exit with error
 	# verify type of of arguments and eventually print error message and exit with error
 	if len(sys.argv) < 3 or len(sys.argv) > 4:
-		print(log_levels.ERROR, "No arguments provided.\n")
+		print(log_levels.ERROR, "Wrong usage.\n")
 		usage()
 	
 	# obtain the client_id

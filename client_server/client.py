@@ -272,8 +272,10 @@ def main():
 		usage()
 
 	# obtain the hostname that can be the localhost or another host
-	if len(sys.argv) == 4 and valid_address(sys.argv[3]):
+	if (len(sys.argv) == 4 and valid_address(sys.argv[3])):
 		hostname = sys.argv[3]
+	elif (len(sys.argv) == 4 and sys.argv[3] == "localhost"):
+		hostname = "127.0.0.1"	# Use 127.0.0.1 if localhost
 	elif len(sys.argv) == 4 and not valid_address(sys.argv[3]):
 		print(log_levels.ERROR, "The provided ipv4_address argument is not valid.\n")
 		usage()
